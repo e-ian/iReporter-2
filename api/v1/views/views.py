@@ -39,3 +39,15 @@ def create_redflag():
                 return make_response(jsonify({"status" : 201, "data" : [{"id": int(id), "message": "Created red-flag record"}]}))
     except Exception:
                 return make_response(jsonify({"error": "Invalid input format"}), 400)
+
+@app.route('/api/v1/redflags', methods=['GET'])
+def get_redflags():
+    """ method implementing get all redflags endpoint """
+    all_redflags = Redflags.get_all_redflags()
+    if all_redflags:
+        return make_response(jsonify({'status': 200, 'redflag_list':all_redflags}))
+
+@app.route('/api/v1/redflags/<id>')
+def get_specific_redflag(id):
+    """ gets a specific redflag by id """
+    get_a_redflag = 
