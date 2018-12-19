@@ -43,6 +43,8 @@ def create_redflag():
 @app.route('/api/v1/redflags', methods=['GET'])
 def get_redflags():
     """ method implementing get all redflags endpoint """
+    # if redflag_list == []:
+    #     return make_response(jsonify({'status': 404, 'error': 'No redflags have been posted yet'}))
     all_redflags = Redflags.get_all_redflags()
     if all_redflags:
         return make_response(jsonify({'status': 200, 'redflag_list':all_redflags}))
