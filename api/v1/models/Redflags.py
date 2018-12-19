@@ -36,6 +36,8 @@ class Redflags:
         return cls.redflag_list
 
     @classmethod
-    def get_specific_redflag(cls):
-        """ class
-    
+    def get_specific_redflag(cls, flagid):
+        """ class method that returns a specific redflag """
+        redflag = [redflag for redflag in cls.redflag_list if redflag['flagid']==flagid]
+        if redflag:
+            return redflag[0]
