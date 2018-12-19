@@ -17,7 +17,7 @@ def create_redflag():
     try:
             data = request.get_json(force=True)
             redflag = {
-                'id' : Redflags.len_of_redflag_dict(),
+                'flagid' : Redflags.len_of_redflag_dict(),
                 'createdOn' : data['createdOn'],
                 'createdBy' : data['createdBy'],
                 'incidenttype' : data['incidenttype'],
@@ -36,7 +36,7 @@ def create_redflag():
                 return valid_createdOn
             create_redflag = Redflags.create_redflag(redflag)
             if create_redflag:
-                return make_response(jsonify({"status" : 201, "data" : [{"id": int(id), "message": "Created red-flag record"}]}))
+                return make_response(jsonify({"status" : 201, "data" : [{"flagid": int(id), "message": "Created red-flag record"}]}))
     except Exception:
                 return make_response(jsonify({"error": "Invalid input format"}), 400)
 
@@ -47,7 +47,11 @@ def get_redflags():
     if all_redflags:
         return make_response(jsonify({'status': 200, 'redflag_list':all_redflags}))
 
-@app.route('/api/v1/redflags/<id>')
-def get_specific_redflag(id):
+@app.route('/api/v1/redflags/<int:flagid>')
+def get_specific_redflag(flagid):
     """ gets a specific redflag by id """
-    get_a_redflag = 
+    get_a_redflag = Redflags.get_specific_redflag(flagid)
+    if get_a_redflag:
+        return make_response(jsonify({'status': 200, 'redflag': get_a_redflag}))
+    else:
+        return make_response(jsonify({'status': 404, 'message': 'Redflag not found'}))
