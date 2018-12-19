@@ -36,7 +36,7 @@ def create_redflag():
                 return valid_createdOn
             create_redflag = Redflags.create_redflag(redflag)
             if create_redflag:
-                return make_response(jsonify({"status" : 201, "data" : [{"flagid": int(id), "message": "Created red-flag record"}]}))
+                return make_response(jsonify({"status" : 200, "data" : [{"flagid": int(id), "message": "Created red-flag record"}]}))
     except Exception:
                 return make_response(jsonify({"error": "Invalid input format"}), 400)
 
