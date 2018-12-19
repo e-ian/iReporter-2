@@ -29,3 +29,4 @@ class Redflags:
         """ class method to create a new redflag """
         cls.redflag_list.append(redflag)
         return cls.redflag_list
+    
