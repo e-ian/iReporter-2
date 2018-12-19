@@ -34,4 +34,8 @@ class Redflags:
     def get_all_redflags(cls):
         """ class method that returns all redflag records """
         return cls.redflag_list
+
+    @classmethod
+    def get_specific_redflag(cls):
+        """ class
     
