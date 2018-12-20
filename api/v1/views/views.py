@@ -24,7 +24,6 @@ def create_redflag():
                 'location' : data['location'],
                 'status' : data['status'],
                 'Images' : data['Images'],
-                'Videos' : data['Videos'],
                 'comment' : data['comment']
             }
             id = Redflags.len_of_redflag_dict()
