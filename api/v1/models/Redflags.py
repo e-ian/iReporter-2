@@ -9,14 +9,14 @@ class Redflags:
 
     redflag_list = []
 
-    def __init__(self, createdOn, createdBy, incidenttype, location, status, Images, comment):
-        self.createdOn = createdOn
-        self.createdBy = createdBy
-        self.incidenttype = incidenttype
-        self.location = location
-        self.status = status
-        self.Images = Images
-        self.comment = comment
+    def __init__(self, **kwargs):
+        self.createdOn = kwargs['createdOn']
+        self.createdBy = kwargs['createdBy']
+        self.incidenttype = kwargs['incidenttype']
+        self.location = kwargs['location']
+        self.status = kwargs['status']
+        self.Images = kwargs['Images']
+        self.comment = kwargs['comment']
 
     @classmethod
     def len_of_redflag_dict(cls):
