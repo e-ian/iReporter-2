@@ -4,7 +4,7 @@ import unittest
 import json
 from api.v1 import app
 from api.v1.views import views
-from api.v1.models.redflags import Redflags
+from api.v1.models.Redflags import Redflags
 
 class TestUser(unittest.TestCase):
     """class for testing the API endpoints"""
