@@ -32,7 +32,6 @@ class TestUser(unittest.TestCase):
             'location' : 'mulago',
             'status' : 'resolved',
             'Images' : 'Images',
-            'Videos' :'Videos',
             'comment' :'bribery in OPM'}
 
         with self.client as client:
