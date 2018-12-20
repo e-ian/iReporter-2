@@ -62,6 +62,7 @@ Pygments==2.2.0
 pylint==2.1.1
 pyparsing==2.2.0
 pytest==3.8.0
+pytest-cov==2.6.0
 python-dateutil==2.6.1
 pytz==2018.3
 pywinpty==0.5.1
