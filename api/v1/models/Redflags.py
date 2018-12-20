@@ -9,14 +9,13 @@ class Redflags:
 
     redflag_list = []
 
-    def __init__(self, createdOn, createdBy, incidenttype, location, status, Images, Videos, comment):
+    def __init__(self, createdOn, createdBy, incidenttype, location, status, Images, comment):
         self.createdOn = createdOn
         self.createdBy = createdBy
         self.incidenttype = incidenttype
         self.location = location
         self.status = status
         self.Images = Images
-        self.Videos = Videos
         self.comment = comment
 
     @classmethod
