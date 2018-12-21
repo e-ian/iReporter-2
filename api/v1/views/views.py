@@ -4,6 +4,7 @@ from api.v1.models.Redflags import Redflags
 from api.v1.models.validators import Validators
 
 validate = Validators()
+db = []
 
 @app.route('/')
 def home():
@@ -34,6 +35,7 @@ def create_redflag():
             if valid_createdOn:
                 return valid_createdOn
             create_redflag = Redflags.create_redflag(redflag)
+            db.append(redflag)
             if create_redflag:
                 return make_response(jsonify({"status" : 200, "data" : [{"flagid": int(id), "message": "Created red-flag record"}]}))
     except Exception:
@@ -44,15 +46,37 @@ def get_redflags():
     """ method implementing get all redflags endpoint """
     all_redflags = Redflags.get_all_redflags()
     if all_redflags:
-        return make_response(jsonify({'status': 200, 'redflag_list':all_redflags}))
-    else:
-        return make_response(jsonify({'status': 404, 'error': 'No redflags have been posted yet'}))
+        return make_response(jsonify({'status': 200, 'redflag_list': db}))
+    # else:
+    #     return make_response(jsonify({'status': 404, 'error': 'No redflags have been posted yet'}))
 
-@app.route('/api/v1/redflags/<int:flagid>')
+@app.route('/api/v1/redflags/<int:flagid>', methods=['GET'])
 def get_specific_redflag(flagid):
     """ gets a specific redflag by id """
-    get_a_redflag = Redflags.get_specific_redflag(flagid)
+    get_a_redflag = Redflags.get_single_redflag(flagid)
     if get_a_redflag:
         return make_response(jsonify({'status': 200, 'redflag': get_a_redflag}))
     else:
         return make_response(jsonify({'status': 404, 'message': 'Redflag not found'}))
+
+@app.route('/api/v1/redflags/<int:flagid>/location', methods=['PATCH'])
+def edit_redflags_location(flagid):
+    """ edits the location of a redflag """
+    red_flag = [flag for flag in db if flag['flagid'] == flagid]
+    if len(red_flag) == 0:
+        return jsonify({'error':'Redflag not found'})
+    red_flag[0]['location'] = request.json.get('location', red_flag[0]['location'])
+    if red_flag[0]['location']:
+        return make_response(jsonify({"status": 200, "data" : [{"flagid": int(flagid), "message": "Updated redflag's location"}]}))
+
+@app.route('/api/v1/redflags/<int:flagid>/comment', methods=['PATCH'])
+def edit_redflags_comments(flagid):
+    """ edits the comments of a redflag """
+    redflag = [flag for flag in db if flag['flagid'] == flagid]
+    if not redflag:
+        return jsonify({'error': 'Redflag not found'})
+    redflag[0]['comment'] = request.json.get('comment', redflag[0]['comment'])
+    if redflag[0]['comment']:
+        return make_response(jsonify({"status": 200, "data" : [{"flagid": int(flagid), "message": "Updated redflag's comment"}]}))
+
+
