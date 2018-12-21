@@ -80,3 +80,11 @@ def edit_redflags_comments(flagid):
         response = {"status": 200, "data" : [{"flagid": int(flagid), "message": "Updated redflag's comment"}]}
         return jsonify(response)
 
+@app.route('/api/v1/redflags/<int:flagid>', methods=['DELETE'])
+def delete_redflag(flagid):
+    """ deletes a redflag from records """
+    redflag = [flag for flag in db if flag['flagid'] == flagid]
+    if redflag:
+        db.remove(redflag[0])
+        response = {"status": 200, "data" : [{"flagid": int(flagid), "message": "red-flag record has been deleted"}]}
+        return jsonify(response)
