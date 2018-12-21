@@ -74,7 +74,7 @@ def edit_redflags_comments(flagid):
     """ edits the comments of a redflag """
     redflag = [flag for flag in db if flag['flagid'] == flagid]
     if not redflag:
-        return jsonify({'error': 'Redflag not found'})
+        return jsonify({'error': 'Redflag not found'}), 404
     redflag[0]['comment'] = request.json.get('comment', redflag[0]['comment'])
     if redflag[0]['comment']:
         return make_response(jsonify({"status": 200, "data" : [{"flagid": int(flagid), "message": "Updated redflag's comment"}]}))
