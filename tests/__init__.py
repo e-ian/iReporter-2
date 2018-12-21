@@ -10,6 +10,8 @@ redflag = {
         'Images' : 'Images',
         'comment' :'bribery in OPM'
 }
+
+edit_comment ={'location' : 'kampala'}
 redflagempty = {
     'createdOn' : '2018-12-19',
     'createdBy' : 'emma',
