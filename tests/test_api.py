@@ -5,7 +5,7 @@ import json
 from api.v1 import app
 from api.v1.views import views
 from api.v1.models.Redflags import Redflags
-from . import (redflag, redflagempty, invalid_date, empty_list, edit_comment)
+from . import (redflag, redflagempty, invalid_date, empty_list, redflag_comment)
 
 class TestUser(unittest.TestCase):
     """class for testing the API endpoints"""
@@ -15,6 +15,16 @@ class TestUser(unittest.TestCase):
         sets up instance of app for the tests
         creates client to run the tests
         """
+        kwargs = {
+        'createdOn' : '2018-12-19',
+        'createdBy' : 'emma',
+        'incidenttype' : 'redflag',
+        'location' : 'mulago',
+        'status' : 'resolved',
+        'Images' : 'Images',
+        'comment' :'bribery in OPM'
+        }
+        self.redflags = Redflags(**kwargs)
         self.client = app.test_client()
 
     def test_home(self):
@@ -92,8 +102,10 @@ class TestUser(unittest.TestCase):
     # def test_edit_redflag_comment(self):
     #     """ tests for editing comment"""
     #     with self.client as client:
-    #         response = client.patch('/api/v1/redflags/1/comment', data=json.dumps(edit_comment), content_type='application/json')
+    #         client.post('api/v1/redflags', data=json.dumps(redflag), content_type='application/json')
+    #         response = client.patch('/api/v1/redflags/1/comment', json=dict(comment='bribery in OPM'))
     #         self.assertEqual(response.status_code, 200)
+            # self.assertIn("Updated redflag's comment", str(response.data))
 
     def test_edit_comment_not_found(self):
         """ tests if the flagid doesnot exit when editing comment """
