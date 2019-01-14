@@ -1,7 +1,7 @@
 from flask import jsonify, make_response, request
 from api.v1 import app
 from api.v1.models.Redflags import Redflags
-from api.v1.models.validators import Validators
+from api.v1.validators import Validators
 
 validate = Validators()
 db = []
