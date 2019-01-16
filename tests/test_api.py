@@ -5,7 +5,7 @@ import json
 from api.v1 import app
 from api.v1.views import views
 from api.v1.models.Redflags import Redflags
-from . import (redflag, redflagempty, invalid_date, empty_list, redflag_comment)
+from . import (redflag, redflagempty, invalid_date, empty_list, redflag_comment, empty_incident_type, empty_image)
 
 class TestUser(unittest.TestCase):
     """class for testing the API endpoints"""
@@ -37,26 +37,23 @@ class TestUser(unittest.TestCase):
     def test_create_redflag(self):
         """ tests if a redflag has been created """
         with self.client as client:
-            response = client.post('/api/v1/redflags', data=json.dumps(redflag), \
-            content_type='application/json')
-            self.assertEqual(response.status_code, 200)
+            response = client.post('/api/v1/redflags', data=json.dumps(redflag), content_type='application/json')
+            self.assertEqual(response.status_code, 201)
             self.assertIn("Created red-flag record", str(response.data))
 
     def test_empty_input_redflag(self):
         """ tests if one of the inputs of a redflag is empty """
         with self.client as client:
-            response = client.post('/api/v1/redflags', data=json.dumps(redflagempty), \
-            content_type='application/json')
+            response = client.post('/api/v1/redflags', data=json.dumps(redflagempty), content_type='application/json')
             self.assertEqual(response.status_code, 400)
-            self.assertIn("incidenttype, location, status or comment cannot have empty spaces", str(response.data))
+            self.assertIn("comment and location fields cannot be empty and comment takes alphabets", str(response.data))
 
     def test_invalid_date_format(self):
         """ tests the inputs of the date """
         with self.client as client:
-            response = client.post('/api/v1/redflags', data=json.dumps(invalid_date), \
-            content_type='application/json')
+            response = client.post('/api/v1/redflags', data=json.dumps(invalid_date), content_type='application/json')
             self.assertEqual(response.status_code, 400)
-            self.assertIn("Incorrect data format, should be YYYY-MM-DD", str(response.data))
+            self.assertIn("Incorrect date format, should be YYYY-MM-DD", str(response.data))
 
     def test_get_all_redflags(self):
         """tests if all redflags can be fetched """
@@ -73,8 +70,7 @@ class TestUser(unittest.TestCase):
     def test_specific_redflag_not_found(self):
         """tests is a red flag cannot be got by flagid"""
         with self.client as client:
-            client.post('/api/v1/redflags', json=dict(createdBy='emma', incidenttype='redflag', location='mulago', \
-            status='resolved', Images='image', comment='bribe'))
+            client.post('/api/v1/redflags', json=dict(createdBy='emma', incidenttype='redflag', location='mulago', status='resolved', Images='image', comment='bribe'))
             response = client.get('/api/v1/redflags/10000')
             self.assertIn("Redflag not found", str(response.data))
 
@@ -109,9 +105,20 @@ class TestUser(unittest.TestCase):
         with self.client as client:
             response = client.delete('api/v1/redflags/1')
             self.assertEqual(response.status_code, 200)
-    
 
+    def test_incident_type(self):
+        """ tests if incident type is not empty """
+        with self.client as client:
+            response = client.post("api/v1/redflags", data=json.dumps(empty_incident_type), content_type='application/json')
+            self.assertEqual(response.status_code, 400)
+            self.assertIn('incidenttype or status cannot have empty spaces', str(response.data))
     
+    def test_empty_image(self):
+        """ tets if image field is not empty """
+        with self.client as client:
+            response = client.post("api/v1/redflags", data=json.dumps(empty_image), content_type='application/json')
+            self.assertEqual(response.status_code, 400)
+            self.assertIn('The status and image fields cannot be empty', str(response.data))
 
 if __name__ == "__main__":
     unittest.main()
