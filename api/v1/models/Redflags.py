@@ -1,9 +1,6 @@
 """
 module for redflags in models
 """
-
-from flask import Flask, jsonify
-
 class Redflags:
     """ class handling the redflags model """
 
@@ -37,6 +34,7 @@ class Redflags:
     @classmethod
     def get_single_redflag(cls, flagid):
         """ class method that returns a specific redflag """
-        redflag = [redflag for redflag in cls.redflag_list if redflag['flagid']==flagid]
+        redflag = [
+            redflag for redflag in cls.redflag_list if redflag['flagid'] == flagid]
         if redflag:
             return redflag[0]

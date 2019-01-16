@@ -22,13 +22,14 @@ class Validators:
         try:
             datetime.datetime.strptime(createdOn, '%Y-%m-%d')
         except ValueError:
-            return jsonify({'error': 'Incorrect date format, should be YYYY-MM-DD'}), 400
+            return jsonify(
+                {'error': 'Incorrect date format, should be YYYY-MM-DD'}), 400
 
     @staticmethod
     def validate_comment_and_location(comment, location):
         """ method to validate comment and location inputs """
-        if not comment or not location or comment.isspace() or location.isspace() \
-        or not isinstance(comment, str):
+        if not comment or not location or comment.isspace(
+        ) or location.isspace() or not isinstance(comment, str):
             return False
         else:
             return True
@@ -40,6 +41,3 @@ class Validators:
             return False
         else:
             return True
-        
-
-        
