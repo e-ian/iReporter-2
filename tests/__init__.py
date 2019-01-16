@@ -20,7 +20,6 @@ redflag_comment = {
         'comment' :'bribery in OPM'
 }
 
-# edit_comment ={'comment' : 'bribery'}
 redflagempty = {
     'createdOn' : '2018-12-19',
     'createdBy' : 'emma',

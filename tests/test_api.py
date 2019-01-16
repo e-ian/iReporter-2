@@ -64,14 +64,6 @@ class TestUser(unittest.TestCase):
             response = client.get('/api/v1/redflags')
             self.assertEqual(response.status_code, 200)
 
-    # def test_no_redflags_posted(self):
-    #     """ tests if no redflags have been posted yet """
-    #     with self.client as client:
-    #         client.post('/api/v1/redflags', data=json.dumps(empty_list), content_type='application/json')
-    #         response = client.get('/api/v1/redflags')
-    #         # self.assertEqual(response.status_code, 404)
-    #         self.assertIn("No redflags have been posted yet", str(response.data))
-
     def test_get_specific_redflag(self):
         """ tests if a specific redflag can be fetched """
         with self.client as client:
@@ -99,13 +91,12 @@ class TestUser(unittest.TestCase):
             response = client.patch('api/v1/redflags/0/location', json=dict(location='kampala'))
             self.assertIn('Redflag not found', str(response.data))
 
-    # def test_edit_redflag_comment(self):
-    #     """ tests for editing comment"""
-    #     with self.client as client:
-    #         client.post('api/v1/redflags', data=json.dumps(redflag), content_type='application/json')
-    #         response = client.patch('/api/v1/redflags/1/comment', json=dict(comment='bribery in OPM'))
-    #         self.assertEqual(response.status_code, 200)
-            # self.assertIn("Updated redflag's comment", str(response.data))
+    def test_edit_redflag_comment(self):
+        """ tests for editing comment"""
+        with self.client as client:
+            client.post('api/v1/redflags', data=json.dumps(redflag), content_type='application/json')
+            response = client.patch('/api/v1/redflags/1/comment', json=dict(comment='bribery in OPM'))
+            self.assertEqual(response.status_code, 200)
 
     def test_edit_comment_not_found(self):
         """ tests if the flagid doesnot exit when editing comment """
