@@ -7,7 +7,25 @@ redflag = {
         'incidenttype' : 'redflag',
         'location' : 'mulago',
         'status' : 'resolved',
-        'Images' : 'Images',
+        'images' : 'images',
+        'comment' :'bribery in OPM'
+}
+empty_incident_type = {
+        'createdOn' : '2018-12-19',
+        'createdBy' : 'emma',
+        'incidenttype' : '',
+        'location' : 'mulago',
+        'status' : 'resolved',
+        'images' : 'images',
+        'comment' :'bribery in OPM'
+}
+empty_image = {
+        'createdOn' : '2018-12-19',
+        'createdBy' : 'emma',
+        'incidenttype' : 'redflag',
+        'location' : 'mulago',
+        'status' : 'resolved',
+        'images' : '',
         'comment' :'bribery in OPM'
 }
 redflag_comment = {
@@ -16,7 +34,7 @@ redflag_comment = {
         'incidenttype' : 'redflag',
         'location' : 'kikoni',
         'status' : 'resolved',
-        'Images' : 'Images',
+        'images' : 'images',
         'comment' :'bribery in OPM'
 }
 
@@ -26,18 +44,18 @@ redflagempty = {
     'incidenttype' : 'redflag',
     'location' : '',
     'status' : 'resolved',
-    'Images' : 'Images',
+    'images' : 'images',
     'comment' :'bribery in OPM'
 }
 
 invalid_date = {
-    'createdOn' : 'december/2/2018',
-    'createdBy' : 'emma',
-    'incidenttype' : 'redflag',
-    'location' : 'kisasi',
-    'status' : 'resolved',
-    'Images' : 'Images',
-    'comment' :'bribery in OPM'
+    "createdOn" : "december/2/2018",
+    "createdBy" : "emma",
+    "incidenttype" : "redflag",
+    "location" : "kisasi",
+    "status" : "resolved",
+    "images" : "images",
+    "comment" :"bribery in OPM"
 }
 empty_list = {
 

@@ -24,12 +24,16 @@ def create_redflag():
                 'incidenttype' : data['incidenttype'],
                 'location' : data['location'],
                 'status' : data['status'],
-                'Images' : data['Images'],
+                'images' : data['images'],
                 'comment' : data['comment']
             }
             id = Redflags.len_of_redflag_dict()
-            if not Validators.validate_input_string(redflag['incidenttype'], redflag['location'], redflag['status'], redflag['comment']):
-                return make_response(jsonify({'error': 'incidenttype, location, status or comment cannot have empty spaces'}), 400)
+            if not Validators.validate_input_string(redflag['incidenttype'], redflag['status']):
+                return make_response(jsonify({'status': 400, 'error': 'incidenttype or status cannot have empty spaces'}), 400)
+            elif not Validators.validate_comment_and_location(redflag['comment'], redflag['location']):
+                return make_response(jsonify({'status': 400, 'error': 'comment and location fields cannot be empty and comment takes alphabets'}), 400)
+            elif not Validators.validate_status_and_image(redflag['status'], redflag['images']):
+                return make_response(jsonify({'status': 400, 'error': 'The status and image fields cannot be empty'}), 400)
             createdOn = request.json['createdOn']
             valid_createdOn = Validators.validate_date_created(createdOn)
             if valid_createdOn:
@@ -37,7 +41,7 @@ def create_redflag():
             create_redflag = Redflags.create_redflag(redflag)
             db.append(redflag)
             if create_redflag:
-                return make_response(jsonify({"status" : 200, "data" : [{"flagid": int(id), "message": "Created red-flag record"}]}))
+                return make_response(jsonify({"status" : 201, "data" : [{"flagid": int(id), "message": "Created red-flag record"}]}), 201)
     except Exception:
                 return make_response(jsonify({"error": "Invalid input format"}), 400)
 
@@ -53,9 +57,9 @@ def get_specific_redflag(flagid):
     """ gets a specific redflag by id """
     get_a_redflag = Redflags.get_single_redflag(flagid)
     if get_a_redflag:
-        return make_response(jsonify({'status': 200, 'redflag': get_a_redflag}))
+        return make_response(jsonify({'status': 200, 'redflag': get_a_redflag}), 200)
     else:
-        return make_response(jsonify({'status': 404, 'message': 'Redflag not found'}))
+        return make_response(jsonify({'status': 404, 'message': 'Redflag not found'}), 400)
 
 @app.route('/api/v1/redflags/<int:flagid>/location', methods=['PATCH'])
 def edit_redflags_location(flagid):
@@ -65,7 +69,7 @@ def edit_redflags_location(flagid):
         return jsonify({'error':'Redflag not found'})
     red_flag[0]['location'] = request.json.get('location', red_flag[0]['location'])
     if red_flag[0]['location']:
-        return make_response(jsonify({"status": 200, "data" : [{"flagid": int(flagid), "message": "Updated redflag's location"}]}))
+        return make_response(jsonify({"status": 200, "data" : [{"flagid": int(flagid), "message": "Updated redflag's location"}]}), 200)
 
 @app.route('/api/v1/redflags/<int:flagid>/comment', methods=['PATCH'])
 def edit_redflags_comments(flagid):
