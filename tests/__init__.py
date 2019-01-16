@@ -10,8 +10,16 @@ redflag = {
         'Images' : 'Images',
         'comment' :'bribery in OPM'
 }
+redflag_comment = {
+        'createdOn' : '2018-12-22',
+        'createdBy' : 'solomon',
+        'incidenttype' : 'redflag',
+        'location' : 'kikoni',
+        'status' : 'resolved',
+        'Images' : 'Images',
+        'comment' :'bribery in OPM'
+}
 
-edit_comment ={'location' : 'kampala'}
 redflagempty = {
     'createdOn' : '2018-12-19',
     'createdBy' : 'emma',

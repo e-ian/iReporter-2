@@ -1,7 +1,7 @@
 from flask import jsonify, make_response, request
 from api.v1 import app
 from api.v1.models.Redflags import Redflags
-from api.v1.models.validators import Validators
+from api.v1.validators import Validators
 
 validate = Validators()
 db = []
@@ -47,8 +47,6 @@ def get_redflags():
     all_redflags = Redflags.get_all_redflags()
     if all_redflags:
         return make_response(jsonify({'status': 200, 'redflag_list': db}))
-    # else:
-    #     return make_response(jsonify({'status': 404, 'error': 'No redflags have been posted yet'}))
 
 @app.route('/api/v1/redflags/<int:flagid>', methods=['GET'])
 def get_specific_redflag(flagid):
@@ -72,13 +70,12 @@ def edit_redflags_location(flagid):
 @app.route('/api/v1/redflags/<int:flagid>/comment', methods=['PATCH'])
 def edit_redflags_comments(flagid):
     """ edits the comments of a redflag """
-    redflag = [flag for flag in db if flag['flagid'] == flagid]
-    if not redflag:
-        return jsonify({'error': 'Redflag not found'}), 404
-    redflag[0]['comment'] = request.json['comment']
-    if redflag[0]['comment']:
-        response = {"status": 200, "data" : [{"flagid": int(flagid), "message": "Updated redflag's comment"}]}
-        return jsonify(response)
+    edited_comment = request.get_json()
+    for redflag in db:
+        if redflag['flagid']== flagid:
+            redflag['comment'] = edited_comment['comment']
+            return jsonify({"status": 200, "data" : [{"flagid": int(flagid), "message": "Updated redflag's comment"}]})
+    return jsonify({'status': 404, 'error': 'Redflag not found'})
 
 @app.route('/api/v1/redflags/<int:flagid>', methods=['DELETE'])
 def delete_redflag(flagid):
