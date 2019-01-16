@@ -23,6 +23,4 @@ class Validators:
             datetime.datetime.strptime(createdOn, '%Y-%m-%d')
         except ValueError:
             return jsonify({'error': 'Incorrect data format, should be YYYY-MM-DD'}), 400
-
-
         
