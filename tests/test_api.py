@@ -120,5 +120,14 @@ class TestUser(unittest.TestCase):
             self.assertEqual(response.status_code, 400)
             self.assertIn('The status and image fields cannot be empty', str(response.data))
 
+    # def test_edit_comment_payload(self):
+    #     """ tests for payload data of edit comment """
+    #     with self.client as client:
+    #         client.post('api/v1/redflags', data=json.dumps(redflag), content_type='application/json')
+    #         response = client.patch('/api/v1/redflags/1/comment', json=dict(comment='bribery in OPM'))
+    #         response_data = json.loads(response.data.decode())
+    #         self.assertEqual(response.status_code, 200)
+    #         self.assertEqual("Updated redflag's location", response_data['message'])
+
 if __name__ == "__main__":
     unittest.main()
