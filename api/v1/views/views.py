@@ -48,6 +48,9 @@ def create_redflag():
         valid_created_On = Validators.validate_date_created(created_On)
         if valid_created_On:
             return valid_created_On
+        for redflag_data in db:
+            if redflag_data['created_By'] == redflag['created_By'] and redflag_data['comment'] == redflag['comment']:
+                return jsonify({"error": "Redflag record already exists"}), 400
         create_redflag = Redflags.create_redflag(redflag)
         db.append(redflag)
         if create_redflag:
