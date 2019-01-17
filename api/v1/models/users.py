@@ -12,3 +12,4 @@ class Users:
         self.user_name = kwargs['user_name']
         self.role = kwargs['role']
         self.password = kwargs['password']
+        
