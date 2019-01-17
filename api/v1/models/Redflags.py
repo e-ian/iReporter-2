@@ -7,12 +7,12 @@ class Redflags:
     redflag_list = []
 
     def __init__(self, **kwargs):
-        self.createdOn = kwargs['createdOn']
-        self.createdBy = kwargs['createdBy']
-        self.incidenttype = kwargs['incidenttype']
+        self.created_On = kwargs['created_On']
+        self.created_By = kwargs['created_By']
+        self.incident_Type = kwargs['incident_Type']
         self.location = kwargs['location']
         self.status = kwargs['status']
-        self.Images = kwargs['Images']
+        self.images = kwargs['images']
         self.comment = kwargs['comment']
 
     @classmethod

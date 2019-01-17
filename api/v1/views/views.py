@@ -21,9 +21,9 @@ def create_redflag():
         data = request.get_json(force=True)
         redflag = {
             'flagid': Redflags.len_of_redflag_dict(),
-            'createdOn': data['createdOn'],
-            'createdBy': data['createdBy'],
-            'incidenttype': data['incidenttype'],
+            'created_On': data['created_On'],
+            'created_By': data['created_By'],
+            'incident_Type': data['incident_Type'],
             'location': data['location'],
             'status': data['status'],
             'images': data['images'],
@@ -31,9 +31,9 @@ def create_redflag():
         }
         id = Redflags.len_of_redflag_dict()
         if not Validators.validate_input_string(
-                redflag['incidenttype'], redflag['status']):
+                redflag['incident_Type'], redflag['status']):
             return make_response(jsonify(
-                {'status': 400, 'error': 'incidenttype or status cannot have empty spaces'}), 400)
+                {'status': 400, 'error': 'incident_Type or status cannot have empty spaces'}), 400)
         elif not Validators.validate_comment_and_location(redflag['comment'], redflag['location']):
             return make_response(
                 jsonify(
@@ -44,10 +44,10 @@ def create_redflag():
         elif not Validators.validate_status_and_image(redflag['status'], redflag['images']):
             return make_response(jsonify(
                 {'status': 400, 'error': 'The status and image fields cannot be empty'}), 400)
-        createdOn = request.json['createdOn']
-        valid_createdOn = Validators.validate_date_created(createdOn)
-        if valid_createdOn:
-            return valid_createdOn
+        created_On = request.json['created_On']
+        valid_created_On = Validators.validate_date_created(created_On)
+        if valid_created_On:
+            return valid_created_On
         create_redflag = Redflags.create_redflag(redflag)
         db.append(redflag)
         if create_redflag:
