@@ -80,15 +80,27 @@ resolved)
 
 * Install pytest from terminal
 
-`pip install pytest`
+    `pip install pytest`
 
 * Test your endpoints in the terminal
 
-`pytest tests/test_api.py`
+    `pytest tests/test_api.py`
 
 * To run tests and get coverage report
 
-`pytest tests --cov=api --cov-report term-missing`
+    `pytest tests --cov=api --cov-report term-missing`
+
+## Postman data should be in this format
+
+    ``` creating a redflag
+    {
+	"created_On": "2018-12-19",
+    "created_By" : "emma", 
+    "incident_Type" : "redflag",
+    "location" : "ntinda",
+    "status" : "resolved",
+    "images" : "images",
+    "comment" : "corruption"} ```
 
 # Deployment
 
