@@ -111,3 +111,4 @@ def delete_redflag(flagid):
         response = {"status": 200, "data": [
             {"flagid": int(flagid), "message": "red-flag record has been deleted"}]}
         return jsonify(response)
+    return jsonify({'status': 404, 'error': 'Redflag doesnot exist'})

@@ -153,6 +153,12 @@ class TestUser(unittest.TestCase):
             response = client.delete('api/v1/redflags/1')
             self.assertEqual(response.status_code, 200)
 
+    def test_deleted_red_flag_does_not_exist(self):
+        """ tests whether a user cannot delete the same redflag twice """
+        with self.client as client:
+            response = client.delete('api/v1/redflags/0')
+            self.assertIn('Redflag doesnot exist', str(response.data))
+
     def test_incident_type(self):
         """ tests if incident type is not empty """
         with self.client as client:
