@@ -1,6 +1,8 @@
 """
 module for redflags in models
 """
+
+
 class Redflags:
     """ class handling the redflags model """
 

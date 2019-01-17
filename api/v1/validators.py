@@ -6,6 +6,7 @@ from flask import Flask, jsonify
 import re
 import datetime
 
+
 class Validators:
 
     @staticmethod

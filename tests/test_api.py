@@ -5,6 +5,7 @@ import json
 from api.v1 import app
 from api.v1.views import views
 from api.v1.models.Redflags import Redflags
+from api.v1.models.users import Users
 from . import (
     redflag,
     redflagempty,
@@ -12,7 +13,9 @@ from . import (
     empty_list,
     redflag_comment,
     empty_incident_type,
-    empty_image)
+    empty_image,
+    redflag_draft,
+    edit_comment)
 
 
 class TestUser(unittest.TestCase):
@@ -34,6 +37,16 @@ class TestUser(unittest.TestCase):
             'comment': 'bribery in OPM'
         }
         self.redflags = Redflags(**kwargs)
+        kwargs = {
+            'first_name': 'emma',
+            'last_name': 'ogwal',
+            'email': 'ogwal@hotmail.com',
+            'phone_number': '772903077',
+            'user_name': 'eogwal',
+            'role': 'admin',
+            'password': 'akokorodrift'
+        }
+        self.users = Users(**kwargs)
         self.client = app.test_client()
 
     def test_home(self):
@@ -120,7 +133,7 @@ class TestUser(unittest.TestCase):
         """ tests if the flagid doesnot exit when editing location """
         with self.client as client:
             response = client.patch(
-                'api/v1/redflags/0/location',
+                '/api/v1/redflags/0/location',
                 json=dict(
                     location='kampala'))
             self.assertIn('Redflag not found', str(response.data))
@@ -129,8 +142,8 @@ class TestUser(unittest.TestCase):
         """ tests for editing comment"""
         with self.client as client:
             client.post(
-                'api/v1/redflags',
-                data=json.dumps(redflag),
+                '/api/v1/redflags',
+                data=json.dumps(edit_comment),
                 content_type='application/json')
             response = client.patch(
                 '/api/v1/redflags/1/comment',
@@ -141,6 +154,10 @@ class TestUser(unittest.TestCase):
     def test_edit_comment_not_found(self):
         """ tests if the flagid doesnot exit when editing comment """
         with self.client as client:
+            client.post(
+                '/api/v1/redflags',
+                data=json.dumps(redflag),
+                content_type='application/json')
             response = client.patch(
                 'api/v1/redflags/0/comment',
                 json=dict(
@@ -183,14 +200,20 @@ class TestUser(unittest.TestCase):
                 'The status and image fields cannot be empty', str(
                     response.data))
 
-    # def test_edit_comment_payload(self):
-    #     """ tests for payload data of edit comment """
-    #     with self.client as client:
-    #         client.post('api/v1/redflags', data=json.dumps(redflag), content_type='application/json')
-    #         response = client.patch('/api/v1/redflags/1/comment', json=dict(comment='bribery in OPM'))
-    #         response_data = json.loads(response.data.decode())
-    #         self.assertEqual(response.status_code, 200)
-    #         self.assertEqual("Updated redflag's location", response_data['message'])
+    def test_edit_comment_payload(self):
+        """ tests for payload data of edit comment """
+        with self.client as client:
+            client.post(
+                '/api/v1/redflags',
+                data=json.dumps(redflag),
+                content_type='application/json')
+            response = client.patch(
+                '/api/v1/redflags/1/comment',
+                json=dict(
+                    comment='bribery in OPM'))
+            response_data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 200)
+            self.assertIsInstance(response_data, dict)
 
 
 if __name__ == "__main__":

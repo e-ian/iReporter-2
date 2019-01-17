@@ -48,6 +48,9 @@ def create_redflag():
         valid_created_On = Validators.validate_date_created(created_On)
         if valid_created_On:
             return valid_created_On
+        for redflag_data in db:
+            if redflag_data['created_By'] == redflag['created_By'] and redflag_data['comment'] == redflag['comment']:
+                return jsonify({"error": "Redflag record already exists"}), 400
         create_redflag = Redflags.create_redflag(redflag)
         db.append(redflag)
         if create_redflag:
@@ -86,16 +89,16 @@ def edit_redflags_location(flagid):
     red_flag[0]['location'] = request.json.get(
         'location', red_flag[0]['location'])
     if red_flag[0]['location']:
-        return make_response(jsonify({"status": 200, "data": [
-                             {"flagid": int(flagid), "message": "Updated redflag's location"}]}), 200)
+        return make_response(
+            jsonify({"message": "Updated redflag's location"}), 200)
 
 
 @app.route('/api/v1/redflags/<int:flagid>/comment', methods=['PATCH'])
 def edit_redflags_comments(flagid):
     """ edits the comments of a redflag """
-    edited_comment = request.get_json()
     for redflag in db:
         if redflag['flagid'] == flagid:
+            edited_comment = request.get_json()
             redflag['comment'] = edited_comment['comment']
             return jsonify({"status": 200, "data": [{"flagid": int(
                 flagid), "message": "Updated redflag's comment"}]})
