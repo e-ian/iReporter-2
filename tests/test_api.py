@@ -5,6 +5,7 @@ import json
 from api.v1 import app
 from api.v1.views import views
 from api.v1.models.Redflags import Redflags
+from api.v1.models.users import Users
 from . import (
     redflag,
     redflagempty,
@@ -36,6 +37,16 @@ class TestUser(unittest.TestCase):
             'comment': 'bribery in OPM'
         }
         self.redflags = Redflags(**kwargs)
+        kwargs = {
+            'first_name': 'emma',
+            'last_name': 'ogwal',
+            'email': 'ogwal@hotmail.com',
+            'phone_number': '772903077',
+            'user_name': 'eogwal',
+            'role': 'admin',
+            'password': 'akokorodrift'
+        }
+        self.users = Users(**kwargs)
         self.client = app.test_client()
 
     def test_home(self):
