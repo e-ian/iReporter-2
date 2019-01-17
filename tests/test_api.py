@@ -25,12 +25,12 @@ class TestUser(unittest.TestCase):
         creates client to run the tests
         """
         kwargs = {
-            'createdOn': '2018-12-19',
-            'createdBy': 'emma',
-            'incidenttype': 'redflag',
+            'created_On': '2018-12-19',
+            'created_By': 'emma',
+            'incident_Type': 'redflag',
             'location': 'mulago',
             'status': 'resolved',
-            'Images': 'Images',
+            'images': 'images',
             'comment': 'bribery in OPM'
         }
         self.redflags = Redflags(**kwargs)
@@ -94,11 +94,11 @@ class TestUser(unittest.TestCase):
             client.post(
                 '/api/v1/redflags',
                 json=dict(
-                    createdBy='emma',
-                    incidenttype='redflag',
+                    created_By='emma',
+                    incident_Type='redflag',
                     location='mulago',
                     status='resolved',
-                    Images='image',
+                    images='image',
                     comment='bribe'))
             response = client.get('/api/v1/redflags/10000')
             self.assertIn("Redflag not found", str(response.data))
@@ -168,7 +168,7 @@ class TestUser(unittest.TestCase):
                 content_type='application/json')
             self.assertEqual(response.status_code, 400)
             self.assertIn(
-                'incidenttype or status cannot have empty spaces', str(
+                'incident_Type or status cannot have empty spaces', str(
                     response.data))
 
     def test_empty_image(self):
