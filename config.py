@@ -1,11 +1,12 @@
 """
-module config
+module config to configure database
 """
 class Config:
     """
     parent config class
     """
     DEBUG = False
+    dbname = "iReporterdb"
 
 class DevelopmentConfig(Config):
     """
@@ -17,13 +18,5 @@ class TestingConfig(Config):
     """
     class for testing configuration
     """
-    DEBUG = True
-    TESTING = True
-
-class ProductionConfig(Config):
-    """
-    class for production configuration
-    """
     DEBUG = False
-    
-    TESTING = False
+    TESTING = True
