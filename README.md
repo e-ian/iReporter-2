@@ -102,6 +102,10 @@ resolved)
     "images" : "images",
     "comment" : "corruption"} ```
 
+# To run the API, type the command:
+
+``` python run.py ```
+
 # Deployment
 
 The app has been hosted on heroku and can be accessed using the following link (https://eian-ireporter.herokuapp.com/)
