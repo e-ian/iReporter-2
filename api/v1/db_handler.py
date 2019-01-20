@@ -77,7 +77,7 @@ class Interventions:
         single_intervention = dictcur.fetchone()
         return single_intervention
 
-    def edits_interventions(self, intervention_id, column, column_data):
+    def edit_interventions(self, intervention_id, column, column_data):
         """method to edit intervention status, comment and location"""
         command = "UPDATE interventions SET {column}='{column_data}' WHERE intervention_id='{intervention_id}';"\
         .format(column=column, column_data=column_data, intervention_id=intervention_id)
