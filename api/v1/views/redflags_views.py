@@ -13,7 +13,6 @@ def home():
 
     return jsonify({'message': 'Welcome to iReporter'})
 
-
 @app.route('/api/v1/redflags', methods=['POST'])
 def create_redflag():
     """ method implementing the create redflag api """

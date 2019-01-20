@@ -7,7 +7,7 @@ cursor = db.cur
 dictcur = db.dict_cursor
 
 class Redflags:
-    """class to handle database operations on products"""
+    """class to handle database operations on redflags"""
 
     def create_redflag(self, data):
         """ method to create redflags """
@@ -52,5 +52,44 @@ class Redflags:
         dictcur.execute(query)
         data = dictcur.fetchone()
         return data
+
+class Interventions:
+    """ class to handle database operations on interventions """
+    def create_intervention(self, form_data):
+        """ method to create an intervention record """
+        command = "INSERT INTO interventions(created_by, incident_type, \
+        location, status, image, comment) VALUES('{}', '{}', '{}', '{}', '{}', '{}')".format(form_data['created_by'], \
+        form_data['incident_type'], form_data['location'], form_data['status'], form_data['image'], form_data['comment'])
+        cursor.execute(command)
+        return self.check_intervention(form_data['created_by'], form_data['comment'])
+
+    def get_interventions(self):
+        """ method to get all interventions """
+        command ="SELECT * FROM interventions"
+        dictcur.execute(command)
+        interventions = dictcur.fetchall()
+        return interventions
+
+    def get_single_intervention(self, intervention_id):
+        """ method to get a specific intervention """
+        command = "SELECT * FROM interventions WHERE intervention_id='{}'".format(intervention_id)
+        dictcur.execute(command)
+        single_intervention = dictcur.fetchone()
+        return single_intervention
+
+
+
+
+
+    @staticmethod
+    def check_intervention(created_by, comment):
+        """ method to check if an intervention record already exists """
+        command = "SELECT DISTINCT intervention_id, created_by, comment FROM interventions WHERE created_by='{}' AND comment='{}';" \
+        .format(created_by, comment)
+        dictcur.execute(command)
+        data = dictcur.fetchone()
+        return data
+
+
 
 
