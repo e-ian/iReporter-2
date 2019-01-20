@@ -3,6 +3,7 @@ import os
 import psycopg2
 from psycopg2.extras import RealDictCursor
 
+
 class Database(object):
     """class to define databases for ireporter """
     def __init__(self):
@@ -10,18 +11,21 @@ class Database(object):
         if os.getenv("Testingenv") == "EnvTests":
             dbname = "testingdb"
         else:
-            dbname = "iReporterdb"
-        self.conn = psycopg2.connect(dbname=dbname, user="postgres", host="localhost", password="ogwal123", port="5432")
+            dbname = "ireporterdb"
+        self.conn = psycopg2.connect(dbname=dbname, user="postgres", host="localhost", password="alimanu", port="5432")
         self.conn.autocommit = True
         self.cur = self.conn.cursor()
         self.dict_cursor = self.conn.cursor(cursor_factory=RealDictCursor)
+        self.create_users_table()
+        self.create_redflags_table()
+        self.create_interventions_table()
 
         print(dbname)
 
-    def create_user_table(self):
+    def create_users_table(self):
         """ creates table for users in database """
         user_table = "CREATE TABLE IF NOT EXISTS users(user_id serial PRIMARY KEY, \
-        firstname varchar(50), lastname varchar(50) username varchar(50), password varchar(256), \
+        firstname varchar(50), lastname varchar(50), username varchar(50), password varchar(256), \
         email varchar(30), role varchar(15))"
 
         self.cur.execute(user_table)
@@ -41,3 +45,4 @@ class Database(object):
         location varchar(50), status varchar(20), image varchar(50), comment varchar(100))"
 
         self.cur.execute(interventions_table)
+
