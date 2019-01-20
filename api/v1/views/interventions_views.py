@@ -1,7 +1,7 @@
 from flask import jsonify, make_response, request
 from api.v1 import app
 from api.v1.db_handler import Interventions
-# from api.v1.utilities.helpers import update_redflags
+from api.v1.utilities.helpers import patch_interventions
 from api.v1.validators import Validators
 
 incid = Interventions()
@@ -61,5 +61,16 @@ def get_specific_intervention(intervention_id):
         return make_response(
             jsonify({'status': 404, 'message': 'Intervention record not found'}), 400)
 
+@app.route('/api/v1/interventions/<int:intervention_id>/location', methods=['PATCH'])
+def edit_intervention_location(intervention_id):
+    """ edits the location of an intervention """
+    try:
+        data = request.get_json(force=True)
+
+        message, status = patch_interventions(intervention_id, 'location', data['location'])
+
+        return make_response(jsonify({"message": message}), status)
+    except KeyError:
+        return jsonify({"error": "Please enter a valid key for location field as 'location' "}), 400
 
 
