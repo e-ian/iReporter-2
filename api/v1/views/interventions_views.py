@@ -96,3 +96,14 @@ def edit_intervention_status(intervention_id):
         return make_response(jsonify({"message": message}), status)
     except KeyError:
         return jsonify({"error": "Please enter a valid key for status field as 'status' "}), 400
+
+@app.route('/api/v1/interventions/<int:intervention_id>', methods=['DELETE'])
+def del_intervention(intervention_id):
+    """ deletes a redflag from records """
+    intervention_list = incid.get_single_intervention(intervention_id)
+    if intervention_list:
+        incid.delete_intervention(intervention_id)
+        response = {"status": 200, "data": [
+            {"intervention_id": int(intervention_list['intervention_id']), "message": "Intervention record has been deleted"}]}
+        return jsonify(response)
+    return jsonify({'status': 404, 'error': 'intervention doesnot exist'})
