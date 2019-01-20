@@ -94,6 +94,18 @@ def edit_redflags_comments(redflag_id):
     except KeyError:
         return jsonify({"error": "Please enter a valid key for comment field as 'comment' "}), 400
 
+@app.route('/api/v1/redflags/<int:redflag_id>/status', methods=['PATCH'])
+def edit_redflags_status(redflag_id):
+    """ edits the status of a redflag """
+    try:
+        data = request.get_json(force=True)
+
+        message, status = update_redflags( redflag_id, 'status', data['status'])
+
+        return make_response(jsonify({"message": message}), status)
+    except KeyError:
+        return jsonify({"error": "Please enter a valid key for status field as 'status' "}), 400
+
 @app.route('/api/v1/redflags/<int:redflag_id>', methods=['DELETE'])
 def delete_redflag(redflag_id):
     """ deletes a redflag from records """
