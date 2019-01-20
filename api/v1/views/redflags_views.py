@@ -107,7 +107,7 @@ def edit_redflags_status(redflag_id):
         return jsonify({"error": "Please enter a valid key for status field as 'status' "}), 400
 
 @app.route('/api/v1/redflags/<int:redflag_id>', methods=['DELETE'])
-def delete_redflag(redflag_id):
+def del_redflag(redflag_id):
     """ deletes a redflag from records """
     flag_list = red.get_specific_redflag(redflag_id)
     if flag_list:
