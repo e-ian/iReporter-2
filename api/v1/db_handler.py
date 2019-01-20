@@ -84,9 +84,11 @@ class Interventions:
         dictcur.execute(command)
         return dictcur
 
-
-
-
+    def delete_intervention(self, intervention_id):
+        """method to delete an intervention by intervention_id"""
+        command = "DELETE FROM interventions WHERE intervention_id='{}'".format(intervention_id)
+        del_intervention = cursor.execute(command)
+        return del_intervention
 
     @staticmethod
     def check_intervention(created_by, comment):
