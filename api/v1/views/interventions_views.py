@@ -75,7 +75,7 @@ def edit_intervention_location(intervention_id):
 
 @app.route('/api/v1/interventions/<int:intervention_id>/comment', methods=['PATCH'])
 def edit_intervention_comment(intervention_id):
-    """ edits the location of an intervention """
+    """ edits the comment of an intervention """
     try:
         data = request.get_json(force=True)
 
@@ -85,4 +85,14 @@ def edit_intervention_comment(intervention_id):
     except KeyError:
         return jsonify({"error": "Please enter a valid key for comment field as 'comment' "}), 400
 
+@app.route('/api/v1/interventions/<int:intervention_id>/status', methods=['PATCH'])
+def edit_intervention_status(intervention_id):
+    """ edits the status of an intervention """
+    try:
+        data = request.get_json(force=True)
 
+        message, status = patch_interventions(intervention_id, 'status', data['status'])
+
+        return make_response(jsonify({"message": message}), status)
+    except KeyError:
+        return jsonify({"error": "Please enter a valid key for status field as 'status' "}), 400
