@@ -43,4 +43,12 @@ def create_intervention():
     except Exception:
         return make_response(jsonify({"error": "Invalid input format"}), 400)
 
+@app.route('/api/v1/interventions', methods=['GET'])
+def get_interventions():
+    """ method implementing get all redflags endpoint """
+    all_interventions = incid.get_interventions()
+    if all_interventions:
+        return make_response(jsonify({'status': 200, 'interventions_list': all_interventions}), 200)
+
+
 
