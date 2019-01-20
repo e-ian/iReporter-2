@@ -10,21 +10,12 @@ import datetime
 class Validators:
 
     @staticmethod
-    def validate_input_string(incidenttype, status):
+    def validate_input_string(incident_type, status):
         """ method to validate if the input is a string and not empty """
-        if not incidenttype or not status:
+        if not incident_type or not status:
             return False
         else:
             return True
-
-    @staticmethod
-    def validate_date_created(createdOn):
-        """method to validate the date a record was created"""
-        try:
-            datetime.datetime.strptime(createdOn, '%Y-%m-%d')
-        except ValueError:
-            return jsonify(
-                {'error': 'Incorrect date format, should be YYYY-MM-DD'}), 400
 
     @staticmethod
     def validate_comment_and_location(comment, location):
@@ -36,9 +27,9 @@ class Validators:
             return True
 
     @staticmethod
-    def validate_status_and_image(status, images):
+    def validate_status_and_image(status, image):
         """ method to validate status and image inputs """
-        if not status or not images or status.isspace() or images.isspace():
+        if not status or not image or status.isspace() or image.isspace():
             return False
         else:
             return True
