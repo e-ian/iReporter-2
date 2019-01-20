@@ -50,5 +50,16 @@ def get_interventions():
     if all_interventions:
         return make_response(jsonify({'status': 200, 'interventions_list': all_interventions}), 200)
 
+@app.route('/api/v1/interventions/<int:intervention_id>', methods=['GET'])
+def get_specific_intervention(intervention_id):
+    """ gets a specific redflag by id """
+    get_intervention = incid.get_single_intervention(intervention_id)
+    if get_intervention:
+        return make_response(
+            jsonify({'status': 200, 'intervention': get_intervention}), 200)
+    else:
+        return make_response(
+            jsonify({'status': 404, 'message': 'Intervention record not found'}), 400)
+
 
 
