@@ -105,8 +105,8 @@ class Users:
 
     def signup_user(self, data):
         """ method to register a new user """
-        query = "INSERT INTO users(firstname, lastname, username, password, email, role)\
-        VALUES('{}', '{}', '{}', '{}', '{}', '{}'".format(data['firstname'], data['lastname'], \
+        query = "INSERT INTO users(firstname, lastname, username, password, email, role) \
+        VALUES('{}', '{}', '{}', '{}', '{}', '{}')".format(data['firstname'], data['lastname'], \
         data['username'], generate_password_hash(data['password']), data['email'], data['role'])
         cursor.execute(query)
         return data
