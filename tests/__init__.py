@@ -85,7 +85,7 @@ invalid_intervention = {
     "image": "vbdjhdhjs",
     "comment": "bribery in OPM"
 }
-empty_comment = {
+empty_comment_int = {
     "created_by": "emmanuel",
     "incident_type": "intervention",
     "location": "kikoni",
@@ -101,3 +101,23 @@ empty_image_int = {
     "image": "",
     "comment": "bribery in OPM"
 }
+edit_int_location = {"location": "gulu"}
+
+edit_invalid_int_location = {  
+    "locatio": "gulu"
+}
+edit_int_comment = {  
+    "comment": "nepotism"   
+}
+
+edit_invalid_int_comment = {  
+    "comme": "bribery"   
+}
+edit_int_status = {  
+    "status": "resolved"   
+}
+
+edit_invalid_int_status = { 
+    "stat": "resolved"   
+}
+
