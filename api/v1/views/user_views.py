@@ -1,41 +1,50 @@
-# from flask import jsonify, request, make_response
-# from api.v1 import app
-# from api.v1.models.users import Users
-# from werkzeug.security import generate_password_hash, check_password_hash
-# users = []
+from flask import jsonify, make_response, request
+from api.v1 import app
+from api.v1.db_handler import Users
+# from api.v1.utilities.helpers import patch_interventions
+from api.v1.validators import Validators
 
-# @app.route('/api/v1/auth/signup', methods=['POST'])
-# def signup_user():
-#     """ method implementing the signup endpoint """
-#     data = request.get_json(force=True)
-#     username = data.get("user_name")
-#     email = data.get("email")
-#     role = data.get("role")
+b = Users()
+validate = Validators()
 
-#     for user in users:
-#         if user.username == data['user_name']:
-#             return jsonify({"status": 400, "message": "username already exists"}), 400
+@app.route('/api/v1/auth/signup', methods=['POST'])
+def create_user():
+    """ method implementing the signup user endpoint """
+    firstname = request.json['firstname']
+    lastname = request.json['lastname']
+    username = request.json['username']
+    password = request.json['password']
+    email = request.json['email']
+    role = request.json['role']
 
-#             user_id = len(users) + 1
-#             secret_key = generate_password_hash(data['password'], method='sha256')
-#             kwargs = {
-#                 "user_id": user_id,
-#                 "first_name": data['first_name'],
-#                 "last_name": data['last_name'],
-#                 "email": data['email'],
-#                 "phone_number": data['phone_number'],
-#                 "user_name": data['user_name'],
-#                 "role": data['role'],
-#                 "password": data['password'],
-#             }
-#             user = Users(**kwargs)
-#             users.append(user)
-#             return jsonify({'status': 201, "data": [{"user_id":user_id, 'message': 'User registered successfully'}]}), 201
-#         return jsonify({'message': 'invalid'})
-
-# # @app.route('/api/v1/auth/login', methods=['POST'])
-# # def user_login():
-# #     """ methods implementing login endpoint """
-# #     data = request.get_json()
-# #     user_name = data.get("user_name")
-# #     password = data.get("password")
+    valid_firstname = validate.validate_inputs(firstname)
+    valid_lastname = validate.validate_inputs(lastname)
+    valid_username = validate.validate_inputs(username)
+    valid_role = validate.validate_inputs(role)
+    valid_pass = validate.valid_password(password)
+    valid_email = validate.validate_email(email)
+    if valid_firstname:
+        return valid_firstname
+    if valid_lastname:
+        return valid_lastname
+    if valid_username:
+        return valid_username
+    if valid_role:
+        return valid_role
+    if valid_pass:
+        return valid_pass
+    if valid_email:
+        return valid_email
+    check_user = b.check_username(username)
+    if check_user:
+        return jsonify({'message': 'username already exist'}), 400
+    signup_data ={
+        "firstname": firstname,
+        "lastname": lastname,
+        "username": username,
+        "password": password,
+        "email": email,
+        "role": role
+    }
+    b.signup_user(signup_data)
+    return make_response(jsonify({"message": "User registered successfully"}), 201)

@@ -26,7 +26,7 @@ class Database(object):
         """ creates table for users in database """
         user_table = "CREATE TABLE IF NOT EXISTS users(user_id serial PRIMARY KEY, \
         firstname varchar(50), lastname varchar(50), username varchar(50), password varchar(256), \
-        email varchar(30), role varchar(15))"
+        email varchar(30), role varchar(50))"
 
         self.cur.execute(user_table)
 

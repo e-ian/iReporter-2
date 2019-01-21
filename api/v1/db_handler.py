@@ -1,6 +1,7 @@
 """ module handling operations performed by the database """
 from flask import make_response, current_app as app
 from api.v1.models import Database
+from werkzeug.security import generate_password_hash, check_password_hash
 
 db = Database()
 cursor = db.cur
@@ -96,6 +97,25 @@ class Interventions:
         command = "SELECT DISTINCT intervention_id, created_by, comment FROM interventions WHERE created_by='{}' AND comment='{}';" \
         .format(created_by, comment)
         dictcur.execute(command)
+        data = dictcur.fetchone()
+        return data
+
+class Users:
+    """class handling all database operations on users"""
+
+    def signup_user(self, data):
+        """ method to register a new user """
+        query = "INSERT INTO users(firstname, lastname, username, password, email, role) \
+        VALUES('{}', '{}', '{}', '{}', '{}', '{}')".format(data['firstname'], data['lastname'], \
+        data['username'], generate_password_hash(data['password']), data['email'], data['role'])
+        cursor.execute(query)
+        return data
+
+    @staticmethod
+    def check_username(username):
+        """ method to check if a username is already taken"""
+        query = "SELECT * FROM users WHERE username='{}'".format(username)
+        dictcur.execute(query)
         data = dictcur.fetchone()
         return data
 
