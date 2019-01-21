@@ -36,7 +36,7 @@ def create_intervention():
                 {'status': 400, 'error': 'The status and image fields cannot be empty'}), 400)        
         check_intervention = incid.check_intervention(intervention['created_by'], intervention['comment'])        
         if check_intervention:
-            return jsonify({"message": "Intervention record already exists"})
+            return jsonify({"message": "Intervention record already exists"}), 400
         valid_intervention = incid.create_intervention(intervention)
         return make_response(jsonify({"status": 201, "data": [
                                     {"intervention_id": int(valid_intervention['intervention_id']), "message": "Created intervention record"}]}), 201)
@@ -52,7 +52,7 @@ def get_interventions():
 
 @app.route('/api/v1/interventions/<int:intervention_id>', methods=['GET'])
 def get_specific_intervention(intervention_id):
-    """ gets a specific redflag by id """
+    """ gets a specific intervention by id """
     get_intervention = incid.get_single_intervention(intervention_id)
     if get_intervention:
         return make_response(
@@ -71,7 +71,7 @@ def edit_intervention_location(intervention_id):
 
         return make_response(jsonify({"message": message}), status)
     except KeyError:
-        return jsonify({"error": "Please enter a valid key for location field as 'location' "}), 400
+        return jsonify({"error": "Please enter a valid key for location field as location"}), 400
 
 @app.route('/api/v1/interventions/<int:intervention_id>/comment', methods=['PATCH'])
 def edit_intervention_comment(intervention_id):
@@ -83,7 +83,7 @@ def edit_intervention_comment(intervention_id):
 
         return make_response(jsonify({"message": message}), status)
     except KeyError:
-        return jsonify({"error": "Please enter a valid key for comment field as 'comment' "}), 400
+        return jsonify({"error": "Please enter a valid key for comment field as comment"}), 400
 
 @app.route('/api/v1/interventions/<int:intervention_id>/status', methods=['PATCH'])
 def edit_intervention_status(intervention_id):
@@ -95,7 +95,7 @@ def edit_intervention_status(intervention_id):
 
         return make_response(jsonify({"message": message}), status)
     except KeyError:
-        return jsonify({"error": "Please enter a valid key for status field as 'status' "}), 400
+        return jsonify({"error": "Please enter a valid key for status field as status"}), 400
 
 @app.route('/api/v1/interventions/<int:intervention_id>', methods=['DELETE'])
 def del_intervention(intervention_id):
@@ -106,4 +106,4 @@ def del_intervention(intervention_id):
         response = {"status": 200, "data": [
             {"intervention_id": int(intervention_list['intervention_id']), "message": "Intervention record has been deleted"}]}
         return jsonify(response)
-    return jsonify({'status': 404, 'error': 'intervention doesnot exist'})
+    return jsonify({'status': 404, 'error': 'intervention doesnot exist'}), 404
