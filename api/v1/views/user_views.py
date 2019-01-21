@@ -46,6 +46,5 @@ def create_user():
         "email": email,
         "role": role
     }
-    print(signup_data)
     b.signup_user(signup_data)
     return make_response(jsonify({"message": "User registered successfully"}), 201)
