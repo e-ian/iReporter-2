@@ -121,3 +121,76 @@ edit_invalid_int_status = {
     "stat": "resolved"   
 }
 
+"""dummy data for testing users"""
+login_admin ={
+    "username": "ogwalian",
+    "password": "ogwal123"
+}
+create_admin ={
+"firstname": "emmanuel",
+"lastname": "ogwal",
+"username": "ogwalian",
+"password": "ogwal123",
+"email": "ogwal@gmail.com",
+"role": "admin"
+}
+create_user ={
+"firstname": "emmanuel",
+"lastname": "ogwal",
+"username": "emma",
+"password": "emma123",
+"email": "ogwal@gmail.com",
+"role": "user"
+}
+login_user ={
+    "username": "emma",
+    "password": "emma123"}
+invalid_username ={
+"firstname": "emmanuel",
+"lastname": "ogwal",
+"username": "123",
+"password": "emmal123",
+"email": "ogwal@gmail.com",
+"role": "user"
+}
+invalid_firstname ={
+"firstname": "3223",
+"lastname": "ogwal",
+"username": "emma",
+"password": "emmal123",
+"email": "ogwal@gmail.com",
+"role": "user"
+}
+invalid_lastname ={
+"firstname": "emmanuel",
+"lastname": "3344",
+"username": "emma",
+"password": "emmal123",
+"email": "ogwal@gmail.com",
+"role": "user"
+}
+invalid_role ={
+"firstname": "emmanuel",
+"lastname": "ogwal",
+"username": "emma",
+"password": "emmal123",
+"email": "ogwal@gmail.com",
+"role": "@kk22"
+}
+invalid_password ={
+"firstname": "emmanuel",
+"lastname": "ogwal",
+"username": "emma",
+"password": "emmal123",
+"email": "ogwal@gmail.com",
+"role": "user"
+}
+invalid_email ={
+"firstname": "emmanuel",
+"lastname": "ogwal",
+"username": "emma",
+"password": "123",
+"email": "ogwalgmail.com",
+"role": "user"
+}
+
