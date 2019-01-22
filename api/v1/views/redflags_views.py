@@ -44,7 +44,7 @@ def create_redflag():
         check_redflag = red.check_redflag(redflag['created_by'], redflag['comment'])
         
         if check_redflag:
-            return jsonify({"message": "Redflag record already exists"})
+            return jsonify({"message": "Redflag record already exists"}), 400
         red_flag = red.create_redflag(redflag)
         return make_response(jsonify({"status": 201, "data": [
                                     {"redflag_id": int(red_flag['redflag_id']), "message": "Created red-flag record"}]}), 201)
@@ -80,7 +80,7 @@ def edit_redflags_location(redflag_id):
 
         return make_response(jsonify({"message": message}), status)
     except KeyError:
-        return jsonify({"error": "Please enter a valid key for location field as 'location' "}), 400
+        return jsonify({"error": "Please enter a valid key for location field as location"}), 400
 
 @app.route('/api/v1/redflags/<int:redflag_id>/comment', methods=['PATCH'])
 def edit_redflags_comments(redflag_id):
@@ -92,7 +92,7 @@ def edit_redflags_comments(redflag_id):
 
         return make_response(jsonify({"message": message}), status)
     except KeyError:
-        return jsonify({"error": "Please enter a valid key for comment field as 'comment' "}), 400
+        return jsonify({"error": "Please enter a valid key for comment field as comment"}), 400
 
 @app.route('/api/v1/redflags/<int:redflag_id>/status', methods=['PATCH'])
 def edit_redflags_status(redflag_id):
@@ -104,7 +104,7 @@ def edit_redflags_status(redflag_id):
 
         return make_response(jsonify({"message": message}), status)
     except KeyError:
-        return jsonify({"error": "Please enter a valid key for status field as 'status' "}), 400
+        return jsonify({"error": "Please enter a valid key for status field as status"}), 400
 
 @app.route('/api/v1/redflags/<int:redflag_id>', methods=['DELETE'])
 def del_redflag(redflag_id):
@@ -115,4 +115,4 @@ def del_redflag(redflag_id):
         response = {"status": 200, "data": [
             {"flagid": int(flag_list['redflag_id']), "message": "red-flag record has been deleted"}]}
         return jsonify(response)
-    return jsonify({'status': 404, 'error': 'Redflag doesnot exist'})
+    return jsonify({'status': 404, 'error': 'Redflag doesnot exist'}), 404

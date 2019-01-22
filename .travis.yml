@@ -1,16 +1,27 @@
-# language: python
+language: python
 
-# python:
-#   - "3.6"
+python:
+  - "3.6"
 
-# install:
-#   - pip install -r requirements.txt
-#   - pip install coverage
-#   - pip install coveralls
-#   - pip install pytest
+services:
+- postgresql
 
-# script:
-#   - py.test --cov=api tests/
+env:
+  global:
+    - Testingenv = "EnvTests"
 
-# after_success:
-# - coveralls
+install:
+  - pip install -r requirements.txt
+  - pip install coverage
+  - pip install coveralls
+  - pip install pytest
+
+before_script:
+  - psql -c 'create database ireporterdb;' -U postgres
+  - psql -c 'create database testingdb;' -U postgres
+
+script:
+  - pytest tests --cov=api --cov-report term-missing
+
+after_success:
+- coveralls
