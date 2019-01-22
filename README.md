@@ -3,7 +3,7 @@ iReporter enables any/every citizen to bring any form of corruption to the notic
 
 [![Build Status](https://travis-ci.org/e-ian/iReporter-2.svg?branch=ch_test_edge_cases)](https://travis-ci.org/e-ian/iReporter-2)
 [![Coverage Status](https://coveralls.io/repos/github/e-ian/iReporter-2/badge.svg?branch=ft_challenge_3)](https://coveralls.io/github/e-ian/iReporter-2?branch=ft_challenge_3)
-
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c9c629399bf34ec6bd998d28fb6a55d3)](https://www.codacy.com/app/e-ian/iReporter-2?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=e-ian/iReporter-2&amp;utm_campaign=Badge_Grade)
 ## Getting started.
 These instructions will help you set and run the application on your local machine.
 
