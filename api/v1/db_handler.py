@@ -111,6 +111,13 @@ class Users:
         cursor.execute(query)
         return data
 
+    def login_user(self, data):
+        """ method to login in registered users"""
+        query = "SELECT * FROM users WHERE username='{}'".format(data['username'])
+        dictcur.execute(query)
+        login = dictcur.fetchone()
+        return login
+
     @staticmethod
     def check_username(username):
         """ method to check if a username is already taken"""
@@ -118,6 +125,9 @@ class Users:
         dictcur.execute(query)
         data = dictcur.fetchone()
         return data
+
+    def verify_password(self, data, db_data):
+        return check_password_hash(data, db_data)
 
 
 

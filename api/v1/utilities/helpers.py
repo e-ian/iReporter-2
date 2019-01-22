@@ -1,5 +1,7 @@
 """ module holding helper functions """
 from api.v1.db_handler import Redflags, Interventions
+from werkzeug.security import generate_password_hash, check_password_hash
+
 red = Redflags()
 incid = Interventions()
 
