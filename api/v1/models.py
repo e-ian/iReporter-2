@@ -4,7 +4,7 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 
 
-class Database(object):
+class Database:
     """class to define databases for ireporter """
     def __init__(self):
         """ constructor method for connecting to the database """

@@ -1,5 +1,6 @@
 from flask import jsonify, make_response, request
 from api.v1 import app
+from flask_jwt_extended import (JWTManager, jwt_required, create_access_token, get_jwt_identity)
 from api.v1.db_handler import Interventions
 from api.v1.utilities.helpers import patch_interventions
 from api.v1.validators import Validators
@@ -86,8 +87,12 @@ def edit_intervention_comment(intervention_id):
         return jsonify({"error": "Please enter a valid key for comment field as comment"}), 400
 
 @app.route('/api/v1/interventions/<int:intervention_id>/status', methods=['PATCH'])
+@jwt_required
 def edit_intervention_status(intervention_id):
     """ edits the status of an intervention """
+    current_user = get_jwt_identity()
+    if current_user['role'] != 'admin':
+        return jsonify({'message': 'Unauthorised access, please login as admin'}), 401
     try:
         data = request.get_json(force=True)
 

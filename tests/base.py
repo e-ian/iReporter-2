@@ -5,13 +5,13 @@ from api.v1 import app
 from api.v1.db_handler import Redflags, Interventions
 from config import TestingConfig
 from api.v1.models import Database
-import re
 from tests import(redflag, empty_incident_type, empty_comment, empty_image, invalid_redflag, edit_redflag_location, \
 edit_redflag_location_not_found, edit_invalid_redflag_location, edit_redflag_comment, edit_redflag_comment_not_found, \
 edit_invalid_redflag_comment, edit_redflag_status, edit_redflag_status_not_found, edit_invalid_redflag_status, \
 intervention, empty_incident_type, empty_comment_int, empty_image_int, invalid_intervention, \
 edit_int_location, edit_invalid_int_location, edit_int_comment, edit_invalid_int_comment, edit_int_status, \
-edit_invalid_int_status)
+edit_invalid_int_status, login_admin, create_admin, create_user, login_user, invalid_username, invalid_firstname, invalid_lastname, \
+invalid_password, invalid_email, invalid_role)
 
 app.config.from_object(TestingConfig)
 
@@ -107,17 +107,20 @@ class TestUser(unittest.TestCase):
 
     def edit_flag_status(self, edit_redflag_status):
         response = self.client.patch("/api/v1/redflags/1/status", \
-        data=json.dumps(edit_redflag_status), content_type='application/json')
+        data=json.dumps(edit_redflag_status), headers={'Authorization':'Bearer '+ str(self.signin_admin(login_admin)), \
+        'content_type' : 'application/json'})
         return response
 
     def edit_flag_status_not_found(self, edit_redflag_status_not_found):
         response = self.client.patch("/api/v1/redflags/10000/status", \
-        data=json.dumps(edit_redflag_status_not_found), content_type='application/json')
+        data=json.dumps(edit_redflag_status_not_found), headers={'Authorization':'Bearer '+ str(self.signin_admin(login_admin)), \
+        'content_type' : 'application/json'})
         return response
 
     def edit_invalid_flag_status(self, edit_invalid_redflag_status):
         response = self.client.patch("/api/v1/redflags/1/status", \
-        data=json.dumps(edit_invalid_redflag_status), content_type='application/json')
+        data=json.dumps(edit_invalid_redflag_status), headers={'Authorization':'Bearer '+ str(self.signin_admin(login_admin)), \
+        'content_type' : 'application/json'})
         return response
 
     def home_route(self):
@@ -204,19 +207,64 @@ class TestUser(unittest.TestCase):
 
     def edit_int_status(self, edit_int_status):
         response = self.client.patch("/api/v1/interventions/1/status", \
-        data=json.dumps(edit_int_status), content_type='application/json')
+        data=json.dumps(edit_int_status),headers={'Authorization':'Bearer '+ str(self.signin_admin(login_admin)), \
+        'content_type' : 'application/json'})
         return response
 
     def edit_int_status_not_found(self, edit_int_status):
         response = self.client.patch("/api/v1/interventions/10000/status", \
-        data=json.dumps(edit_int_status), content_type='application/json')
+        data=json.dumps(edit_int_status), headers={'Authorization':'Bearer '+ str(self.signin_admin(login_admin)), \
+        'content_type' : 'application/json'})
         return response
 
     def edit_invalid_int_status(self, edit_invalid_int_status):
         response = self.client.patch("/api/v1/interventions/1/status", \
-        data=json.dumps(edit_invalid_int_status), content_type='application/json')
+        data=json.dumps(edit_invalid_int_status), headers={'Authorization':'Bearer '+ str(self.signin_admin(login_admin)), \
+        'content_type' : 'application/json'})
         return response
 
+    """ base tests for users """
+    def register_admin(self, create_admin):
+        response = self.client.post("/api/v1/auth/admin", data=json.dumps(create_admin), \
+        content_type='application/json')
+        return response
+
+    def signin_admin(self, login_admin):
+        self.register_admin(create_admin)
+        response = self.client.post('/api/v1/auth/login', data=json.dumps(login_admin), \
+        content_type='application/json')
+        message = json.loads(response.data.decode())
+        return message['access_token']
+
+    def signup_user(self, create_user):
+        response = self.client.post('/api/v1/auth/signup', data=json.dumps(create_user), \
+        content_type='application/json')
+        return response
+
+    def login_user(self, login_user):
+        response = self.client.post('/api/v1/auth/login', data=json.dumps(login_user), \
+        content_type='application/json')
+        return response
+
+    def invalid_firstname(self, invalid_firstname):
+        response = self.client.post('/api/v1/auth/signup', data=json.dumps(invalid_firstname), \
+        content_type='application/json')
+        return response
+
+    def invalid_lastname(self, invalid_lastname):
+        response = self.client.post('/api/v1/auth/signup', data=json.dumps(invalid_lastname), \
+        content_type='application/json')
+        return response
+
+    def invalid_username(self, invalid_username):
+        response = self.client.post('/api/v1/auth/signup', data=json.dumps(invalid_username), \
+        content_type='application/json')
+        return response
+
+    def invalid_role(self, invalid_role):
+        response = self.client.post('/api/v1/auth/signup', data=json.dumps(invalid_role), \
+        content_type='application/json')
+        return response
 
         
 
