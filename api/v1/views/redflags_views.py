@@ -1,5 +1,6 @@
 from flask import jsonify, make_response, request
 from api.v1 import app
+from flask_jwt_extended import (JWTManager, jwt_required, create_access_token, get_jwt_identity)
 from api.v1.db_handler import Redflags
 from api.v1.utilities.helpers import update_redflags
 from api.v1.validators import Validators
@@ -95,8 +96,12 @@ def edit_redflags_comments(redflag_id):
         return jsonify({"error": "Please enter a valid key for comment field as comment"}), 400
 
 @app.route('/api/v1/redflags/<int:redflag_id>/status', methods=['PATCH'])
+@jwt_required
 def edit_redflags_status(redflag_id):
     """ edits the status of a redflag """
+    current_user = get_jwt_identity()
+    if current_user['role'] != 'admin':
+        return jsonify({'message': 'Unauthorised access, please login as admin'}), 401
     try:
         data = request.get_json(force=True)
 
