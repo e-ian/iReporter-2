@@ -111,6 +111,14 @@ class Users:
         cursor.execute(query)
         return data
 
+    def signup_admin(self, data):
+        """ method to register an admin """
+        query = "INSERT INTO users(firstname, lastname, username, password, email, role) \
+        VALUES('{}', '{}', '{}', '{}', '{}', 'admin')".format(data['firstname'], data['lastname'], \
+        data['username'], generate_password_hash(data['password']), data['email'])
+        cursor.execute(query)
+        return data
+
     def login_user(self, data):
         """ method to login in registered users"""
         query = "SELECT * FROM users WHERE username='{}'".format(data['username'])
