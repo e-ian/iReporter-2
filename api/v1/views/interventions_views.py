@@ -129,7 +129,7 @@ def edit_intervention_status(intervention_id):
             intervention_id, 'status', data['status'])
 
         return make_response(jsonify({"message": message}), status)
-    except KeyError:
+    except:
         return jsonify(
             {"error": "Please enter a valid key for status field as status"}), 400
 
