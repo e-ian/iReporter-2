@@ -1,11 +1,14 @@
 from flask import jsonify, make_response, request
-from flask_jwt_extended import (JWTManager, jwt_required, create_access_token, get_jwt_identity)
+from flask_jwt_extended import (
+    JWTManager,
+    jwt_required,
+    create_access_token,
+    get_jwt_identity)
 from api.v1 import app
-from api.v1.db_handler import Users
-from api.v1.validators import Validators
+from api.v1.models import Users
 
-b = Users()
-validate = Validators()
+user = Users()
+
 
 @app.route('/api/v1/auth/signup', methods=['POST'])
 def create_user():
@@ -17,28 +20,31 @@ def create_user():
     email = request.json['email']
     role = request.json['role']
 
-    valid_firstname = validate.validate_inputs(firstname)
-    valid_lastname = validate.validate_inputs(lastname)
-    valid_username = validate.validate_inputs(username)
-    valid_role = validate.validate_inputs(role)
-    valid_pass = validate.valid_password(password)
-    valid_email = validate.validate_email(email)
-    if valid_firstname:
-        return valid_firstname
-    if valid_lastname:
-        return valid_lastname
-    if valid_username:
-        return valid_username
-    if valid_role:
-        return valid_role
-    if valid_pass:
-        return valid_pass
-    if valid_email:
-        return valid_email
-    check_user = b.check_username(username)
+    if not user.validate_email(email):
+        return jsonify(
+            {'error': 'email should be in the form someone@example.com'}), 400
+    if not user.valid_password(password):
+        return jsonify(
+            {'error': 'password should contain atleast 6 characters, some uppercase \
+            letters of the alphabet, numbers and cannot have empty spaces'}), 400
+    if not user.valid_username(username):
+        return jsonify(
+            {'error': 'username field should have length of atleast 3 characters, \
+            should not have empty spaces, cannot be empty and should contain alphabets'}), 400
+    if not user.valid_firstname(firstname):
+        return jsonify(
+            {'error': 'firstname field should have length of atleast 3 characters, \
+            should not have empty spaces, cannot be empty and should contain alphabets'}), 400
+    if not user.valid_lastname(lastname):
+        return jsonify(
+            {'error': 'lastname field should have length of atleast 3 characters, \
+            should not have empty spaces, cannot be empty and should contain alphabets'}), 400
+    if not user.valid_role(role):
+        return jsonify({'error': 'role can be either admin or user only'}), 400
+    check_user = user.check_username(username)
     if check_user:
         return jsonify({'message': 'username already exist'}), 400
-    signup_data ={
+    signup_data = {
         "firstname": firstname,
         "lastname": lastname,
         "username": username,
@@ -46,8 +52,9 @@ def create_user():
         "email": email,
         "role": role
     }
-    b.signup_user(signup_data)
-    return make_response(jsonify({"message": "User registered successfully"}), 201)
+    user.signup_user(signup_data)
+    return make_response(
+        jsonify({"message": "User registered successfully"}), 201)
 
 @app.route('/api/v1/auth/admin', methods=['POST'])
 def create_admin():
@@ -59,28 +66,31 @@ def create_admin():
     email = request.json['email']
     role = request.json['role']
 
-    valid_firstname = validate.validate_inputs(firstname)
-    valid_lastname = validate.validate_inputs(lastname)
-    valid_username = validate.validate_inputs(username)
-    valid_role = validate.validate_inputs(role)
-    valid_pass = validate.valid_password(password)
-    valid_email = validate.validate_email(email)
-    if valid_firstname:
-        return valid_firstname
-    if valid_lastname:
-        return valid_lastname
-    if valid_username:
-        return valid_username
-    if valid_role:
-        return valid_role
-    if valid_pass:
-        return valid_pass
-    if valid_email:
-        return valid_email
-    check_user = b.check_username(username)
+    if not user.validate_email(email):
+        return jsonify(
+            {'error': 'email should be in the form someone@example.com'}), 400
+    if not user.valid_password(password):
+        return jsonify(
+            {'error': 'password should contain atleast 6 characters, some letters \
+            of the alphabets, numbers and cannot have empty spaces'}), 400
+    if not user.valid_username(username):
+        return jsonify(
+            {'error': 'username field should have length of atleast 3 characters, \
+            should not have empty spaces, cannot be empty and should contain alphabets'}), 400
+    if not user.valid_lastname(lastname):
+        return jsonify(
+            {'error': 'lastname field should have length of atleast 3 characters, \
+            should not have empty spaces, cannot be empty and should contain alphabets'}), 400
+    if not user.valid_firstname(firstname):
+        return jsonify(
+            {'error': 'firstname field should have length of atleast 3 characters, \
+            should not have empty spaces, cannot be empty and should contain alphabets'}), 400
+    if not user.valid_role(role):
+        return jsonify({'error': 'role can be either admin or user only'}), 400
+    check_user = user.check_username(username)
     if check_user:
         return jsonify({'message': 'Admin username already exist'}), 400
-    signup_data ={
+    signup_data = {
         "firstname": firstname,
         "lastname": lastname,
         "username": username,
@@ -88,23 +98,26 @@ def create_admin():
         "email": email,
         "role": role
     }
-    b.signup_user(signup_data)
-    return make_response(jsonify({"message": "Admin registered successfully"}), 201)
+    user.signup_user(signup_data)
+    return make_response(
+        jsonify({"message": "Admin registered successfully"}), 201)
+
 
 @app.route('/api/v1/auth/login', methods=['POST'])
 def sigin_user():
     """ method implementing api for siging in a user """
-    login_data ={
+    login_data = {
         "username": request.json['username'],
         "password": request.json['password']
     }
-    login = b.login_user(login_data)
+    login = user.login_user(login_data)
     if not login:
         return jsonify({'message': 'username doesnot exist'})
-    pass_check = b.verify_password(login["password"], login_data["password"])
-
+    pass_check = user.verify_password(login["password"], login_data["password"])
     if login and pass_check:
         access_token = create_access_token(identity=login)
-        return jsonify({"status": 200, "message": "You are now logged in", "access_token":access_token}), 200
+        return jsonify({"status": 200, "message": "You are now logged in",
+                        "access_token": access_token}), 200
     else:
-        return make_response(jsonify({"message": "username or password is wrong"}), 400)
+        return make_response(
+            jsonify({"message": "username or password is wrong"}), 400)

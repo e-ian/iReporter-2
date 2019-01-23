@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_jwt_extended import (JWTManager, jwt_required, create_access_token, get_jwt_identity)
-from api.v1.models import Database
+from api.v1.dbhandler import Database
 
 app = Flask(__name__)
 app.config['JWT_SECRET_KEY'] = 'apaclango'
