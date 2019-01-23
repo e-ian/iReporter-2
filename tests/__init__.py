@@ -10,9 +10,25 @@ redflag = {
     "image": "vbdjhdhjs",
     "comment": "bribery in OPM"
 }
+redflag_draft = {
+    "created_by": "emmanuel",
+    "incident_type": "redflag",
+    "location": "kikoni",
+    "status": "resolved",
+    "image": "vbdjhdhjs",
+    "comment": "bribery in OPM"
+}
 invalid_redflag = {
     "created_by": "emmanuel",
     "incident_type": "redflag",
+    "status": "draft",
+    "image": "vbdjhdhjs",
+    "comment": "bribery in OPM"
+}
+empty_flag_location = {
+    "created_by": "emmanuel",
+    "incident_type": "redflag",
+    "location": "",
     "status": "draft",
     "image": "vbdjhdhjs",
     "comment": "bribery in OPM"
@@ -44,9 +60,9 @@ edit_invalid_redflag_status = {
     "stat": "resolved"   
 }
 
-empty_incident_type = {
+incident_type = {
     "created_by": "emmanuel",
-    "incident_type": "",
+    "incident_type": "incident",
     "location": "kikoni",
     "status": "draft",
     "image": "vbdjhdhjs",
@@ -75,6 +91,22 @@ intervention = {
     "incident_type": "intervention",
     "location": "kikoni",
     "status": "draft",
+    "image": "vbdjhdhjs",
+    "comment": "bribery in OPM"
+}
+empty_int_location = {
+    "created_by": "emmanuel",
+    "incident_type": "intervention",
+    "location": "",
+    "status": "draft",
+    "image": "vbdjhdhjs",
+    "comment": "bribery in OPM"
+}
+post_as_draft = {
+    "created_by": "emmanuel",
+    "incident_type": "intervention",
+    "location": "kikoni",
+    "status": "resolved",
     "image": "vbdjhdhjs",
     "comment": "bribery in OPM"
 }
@@ -124,13 +156,13 @@ edit_invalid_int_status = {
 """dummy data for testing users"""
 login_admin ={
     "username": "ogwalian",
-    "password": "ogwal123"
+    "password": "Ogwal123"
 }
 create_admin ={
 "firstname": "emmanuel",
 "lastname": "ogwal",
 "username": "ogwalian",
-"password": "ogwal123",
+"password": "Ogwal123",
 "email": "ogwal@gmail.com",
 "role": "admin"
 }
@@ -138,34 +170,34 @@ create_user ={
 "firstname": "emmanuel",
 "lastname": "ogwal",
 "username": "emma",
-"password": "emma123",
+"password": "Emma123",
 "email": "ogwal@gmail.com",
 "role": "user"
 }
 login_user ={
     "username": "emma",
-    "password": "emma123"}
+    "password": "Emma123"}
 invalid_username ={
 "firstname": "emmanuel",
 "lastname": "ogwal",
-"username": "123",
-"password": "emmal123",
+"username": "mx ",
+"password": "Emmal123",
 "email": "ogwal@gmail.com",
 "role": "user"
 }
 invalid_firstname ={
-"firstname": "3223",
+"firstname": "33",
 "lastname": "ogwal",
 "username": "emma",
-"password": "emmal123",
+"password": "Emmal123",
 "email": "ogwal@gmail.com",
 "role": "user"
 }
 invalid_lastname ={
 "firstname": "emmanuel",
-"lastname": "3344",
+"lastname": "44",
 "username": "emma",
-"password": "emmal123",
+"password": "Emmal123",
 "email": "ogwal@gmail.com",
 "role": "user"
 }
@@ -173,7 +205,7 @@ invalid_role ={
 "firstname": "emmanuel",
 "lastname": "ogwal",
 "username": "emma",
-"password": "emmal123",
+"password": "Emmal123",
 "email": "ogwal@gmail.com",
 "role": "@kk22"
 }
@@ -181,7 +213,7 @@ invalid_password ={
 "firstname": "emmanuel",
 "lastname": "ogwal",
 "username": "emma",
-"password": "emmal123",
+"password": "Emmal123",
 "email": "ogwal@gmail.com",
 "role": "user"
 }
@@ -189,7 +221,7 @@ invalid_email ={
 "firstname": "emmanuel",
 "lastname": "ogwal",
 "username": "emma",
-"password": "123",
+"password": "Emma123",
 "email": "ogwalgmail.com",
 "role": "user"
 }
