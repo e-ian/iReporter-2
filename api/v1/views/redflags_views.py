@@ -7,12 +7,9 @@ from flask_jwt_extended import (
     get_jwt_identity)
 from api.v1.models import Redflags, Interventions
 from api.v1.utilities.helpers import update_redflags
-from api.v1.validators import Validators
 
 red = Redflags()
 incid = Interventions()
-validate = Validators()
-
 
 @app.route('/')
 def home():
@@ -59,7 +56,7 @@ def create_redflag():
         red_flag = red.create_redflag(redflag)
         return make_response(jsonify({"status": 201, "data": [{"redflag_id": int(
             red_flag['redflag_id']), "message": "Created red-flag record"}]}), 201)
-    except:
+    except Exception:
         return make_response(jsonify({"error": "Invalid input format"}), 400)
 
 
