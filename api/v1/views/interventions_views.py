@@ -7,10 +7,8 @@ from flask_jwt_extended import (
     get_jwt_identity)
 from api.v1.models import Interventions
 from api.v1.utilities.helpers import patch_interventions
-from api.v1.validators import Validators
 
 incid = Interventions()
-validate = Validators()
 
 
 @app.route('/api/v1/interventions', methods=['POST'])
@@ -53,7 +51,7 @@ def create_intervention():
         valid_intervention = incid.create_intervention(intervention)
         return make_response(jsonify({"status": 201, "data": [{"intervention_id": int(
             valid_intervention['intervention_id']), "message": "Created intervention record"}]}), 201)
-    except:
+    except Exception:
         return make_response(jsonify({"error": "Invalid input format"}), 400)
 
 
