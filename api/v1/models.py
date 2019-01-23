@@ -128,7 +128,7 @@ class Interventions:
     def check_status(self, status):
         """method validating the status input"""
         status = str(status).lower()
-        if status in ("resolved", "under investigation", "rejected"):
+        if status not in ("draft"):
             return False
         else:
             return True   
@@ -153,7 +153,7 @@ class Interventions:
             return True
 
     def validate_image(self, image):
-        """ method to validate status and image inputs """
+        """ method to validate image inputs """
         if not image or image.isspace():
             return False
         else:
