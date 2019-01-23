@@ -59,7 +59,7 @@ def create_redflag():
         red_flag = red.create_redflag(redflag)
         return make_response(jsonify({"status": 201, "data": [{"redflag_id": int(
             red_flag['redflag_id']), "message": "Created red-flag record"}]}), 201)
-    except Exception:
+    except:
         return make_response(jsonify({"error": "Invalid input format"}), 400)
 
 
@@ -109,7 +109,7 @@ def edit_redflags_comments(redflag_id):
             redflag_id, 'comment', data['comment'])
 
         return make_response(jsonify({"message": message}), status)
-    except KeyError:
+    except:
         return jsonify(
             {"error": "Please enter a valid key for comment field as comment"}), 400
 
@@ -128,7 +128,7 @@ def edit_redflags_status(redflag_id):
         message, status = update_redflags(redflag_id, 'status', data['status'])
 
         return make_response(jsonify({"message": message}), status)
-    except KeyError:
+    except:
         return jsonify(
             {"error": "Please enter a valid key for status field as status"}), 400
 
