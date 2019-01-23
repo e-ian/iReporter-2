@@ -1,8 +1,8 @@
 """ module tests_interventions """
 from tests.base import TestUser
-from . import(intervention, empty_incident_type, empty_comment_int, empty_image_int, invalid_intervention, \
+from . import(intervention, incident_type, empty_comment_int, empty_image_int, invalid_intervention, \
 edit_int_location, edit_invalid_int_location, edit_int_comment, edit_invalid_int_comment, edit_int_status, \
-edit_invalid_int_status)
+edit_invalid_int_status, post_as_draft, empty_int_location)
 
 class TestApp(TestUser):
 
@@ -11,19 +11,29 @@ class TestApp(TestUser):
         self.assertIn("Created intervention record", str(response.data))
         self.assertEqual(response.status_code, 201)
 
-    def test_empty_incident_type(self):
-        response = self.empty_incident_type(empty_incident_type)
-        self.assertIn('incident_type or status cannot have empty spaces', str(response.data))
+    def test_incident_type(self):
+        response = self.incident_type(incident_type)
+        self.assertIn('incident type can only be intervention', str(response.data))
+        self.assertEqual(response.status_code, 400)
+    
+    def test_post_draft(self):
+        response = self.post_as_draft(post_as_draft)
+        self.assertIn('status can only be posted as a draft', str(response.data))
         self.assertEqual(response.status_code, 400)
 
     def test_empty_comment(self):
         response = self.int_comment_empty(empty_comment_int)
-        self.assertIn('comment and location fields cannot be empty and comment takes alphabets', str(response.data))
+        self.assertIn('comment field should be a string and should contain alphabets', str(response.data))
+        self.assertEqual(response.status_code, 400)
+
+    def test_empty_int_location(self):
+        response = self.empty_int_location(empty_int_location)
+        self.assertIn('location field cannot be empty', str(response.data))
         self.assertEqual(response.status_code, 400)
 
     def test_empty_image(self):
         response = self.int_image_empty(empty_image_int)
-        self.assertIn('The status and image fields cannot be empty', str(response.data))
+        self.assertIn('The image field cannot be empty', str(response.data))
         self.assertEqual(response.status_code, 400)
 
     def test_duplicate_intervention(self):
