@@ -1,11 +1,9 @@
 # iReporter-2
 iReporter enables any/every citizen to bring any form of corruption to the notice of appropriate authorities and the general public. Users can also report on things that needs government intervention.
 
-[![Build Status](https://travis-ci.org/e-ian/iReporter-2.svg?branch=develop)](https://travis-ci.org/e-ian/iReporter-2)
-[![Coverage Status](https://coveralls.io/repos/github/e-ian/iReporter-2/badge.svg?branch=develop)](https://coveralls.io/github/e-ian/iReporter-2?branch=develop)
-[![Maintainability](https://api.codeclimate.com/v1/badges/415eea7b716caedd97f6/maintainability)](https://codeclimate.com/github/e-ian/iReporter-2/maintainability)
+[![Build Status](https://travis-ci.org/e-ian/iReporter-2.svg?branch=ch_test_edge_cases)](https://travis-ci.org/e-ian/iReporter-2)
+[![Coverage Status](https://coveralls.io/repos/github/e-ian/iReporter-2/badge.svg?branch=ft_challenge_3)](https://coveralls.io/github/e-ian/iReporter-2?branch=ft_challenge_3)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c9c629399bf34ec6bd998d28fb6a55d3)](https://www.codacy.com/app/e-ian/iReporter-2?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=e-ian/iReporter-2&amp;utm_campaign=Badge_Grade)
-
 ## Getting started.
 These instructions will help you set and run the application on your local machine.
 
@@ -94,12 +92,11 @@ resolved)
 
     ``` creating a redflag
     {
-	"created_On": "2018-12-19",
-    "created_By" : "emma", 
-    "incident_Type" : "redflag",
+    "created_by" : "emma", 
+    "incident_type" : "redflag",
     "location" : "ntinda",
     "status" : "resolved",
-    "images" : "images",
+    "image" : "image",
     "comment" : "corruption"} ```
 
 # To run the API, type the command:
@@ -108,7 +105,7 @@ resolved)
 
 # Deployment
 
-The app has been hosted on heroku and can be accessed using the following link (https://eian-ireporter.herokuapp.com/)
+The app has been hosted on heroku and can be accessed using the following link ()
 
 # Author:
 
