@@ -1,11 +1,7 @@
 from flask import jsonify, make_response, request
-from flask_jwt_extended import (
-    JWTManager,
-    jwt_required,
-    create_access_token,
-    get_jwt_identity)
 from api.v1 import app
 from api.v1.models import Users
+from api.v1.utilities.helpers import instan_jwt
 
 user = Users()
 
@@ -106,18 +102,19 @@ def create_admin():
 @app.route('/api/v1/auth/login', methods=['POST'])
 def sigin_user():
     """ method implementing api for siging in a user """
+    data = request.get_json()
     login_data = {
-        "username": request.json['username'],
-        "password": request.json['password']
+        "username": data.get('username'),
+        "password": data.get('password')
     }
     login = user.login_user(login_data)
     if not login:
         return jsonify({'message': 'username doesnot exist'})
     pass_check = user.verify_password(login["password"], login_data["password"])
     if login and pass_check:
-        access_token = create_access_token(identity=login)
+        access_token = instan_jwt.encode_token(login_data['username'])
         return jsonify({"status": 200, "message": "You are now logged in",
-                        "access_token": access_token}), 200
+                        "access_token": access_token.decode('UTF-8')}), 200
     else:
         return make_response(
             jsonify({"message": "username or password is wrong"}), 400)
