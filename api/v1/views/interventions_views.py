@@ -1,5 +1,5 @@
 from flask import jsonify, make_response, request
-from api.v1.utilities.helpers import verify_admin, secured
+from api.v1.utilities.helpers import verify_admin, secured, verify_user
 from api.v1 import app
 from api.v1.models import Interventions
 from api.v1.utilities.helpers import patch_interventions
@@ -126,7 +126,8 @@ def edit_intervention_comment(logged_user, intervention_id):
 @secured
 def edit_intervention_status(logged_user, intervention_id):
     """ edits the status of an intervention """
-
+    if verify_user(logged_user):
+        return jsonify({'status': 403, 'error': "You do not have privileges to perform this request"}), 403
     try:
         data = request.get_json(force=True)
 
