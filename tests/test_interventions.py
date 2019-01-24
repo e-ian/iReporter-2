@@ -70,7 +70,7 @@ class TestApp(TestUser):
         self.assertIn('intervention doesnot exist', str(response.data))
         self.assertEqual(response.status_code, 404)
 
-    def test_edit_redflag_location(self):
+    def test_edit_int_location(self):
         self.create_intervention(intervention)
         self.get_single_intervention()
         response = self.edit_int_location(edit_int_location)
