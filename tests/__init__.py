@@ -3,7 +3,6 @@ from api.v1 import app
 
 """ Dummy data for redflags """
 redflag = {
-    "created_by": "emmanuel",
     "incident_type": "redflag",
     "location": "kikoni",
     "status": "draft",
@@ -11,7 +10,6 @@ redflag = {
     "comment": "bribery in OPM"
 }
 redflag_draft = {
-    "created_by": "emmanuel",
     "incident_type": "redflag",
     "location": "kikoni",
     "status": "resolved",
@@ -19,14 +17,12 @@ redflag_draft = {
     "comment": "bribery in OPM"
 }
 invalid_redflag = {
-    "created_by": "emmanuel",
     "incident_type": "redflag",
     "status": "draft",
     "image": "vbdjhdhjs",
     "comment": "bribery in OPM"
 }
 empty_flag_location = {
-    "created_by": "emmanuel",
     "incident_type": "redflag",
     "location": "",
     "status": "draft",
@@ -87,7 +83,6 @@ empty_comment = {
 
 """ dummy data for interventions """
 intervention = {
-    "created_by": "emmanuel",
     "incident_type": "intervention",
     "location": "kikoni",
     "status": "draft",
@@ -95,7 +90,6 @@ intervention = {
     "comment": "bribery in OPM"
 }
 empty_int_location = {
-    "created_by": "emmanuel",
     "incident_type": "intervention",
     "location": "",
     "status": "draft",
@@ -103,7 +97,6 @@ empty_int_location = {
     "comment": "bribery in OPM"
 }
 post_as_draft = {
-    "created_by": "emmanuel",
     "incident_type": "intervention",
     "location": "kikoni",
     "status": "resolved",
@@ -111,7 +104,6 @@ post_as_draft = {
     "comment": "bribery in OPM"
 }
 invalid_intervention = {
-    "created_by": "emmanuel",
     "incident_type": "intervention",
     "status": "draft",
     "image": "vbdjhdhjs",
@@ -126,7 +118,6 @@ empty_comment_int = {
     "comment": ""
 }
 empty_image_int = {
-    "created_by": "emmanuel",
     "incident_type": "intervention",
     "location": "kikoni",
     "status": "draft",
@@ -225,4 +216,3 @@ invalid_email ={
 "email": "ogwalgmail.com",
 "role": "user"
 }
-

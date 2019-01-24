@@ -32,10 +32,13 @@ def verify_admin(logged_user):
     """verifies if user is admin"""
     return logged_user['role'] == 'admin'
 
-
 def verify_user(logged_user):
     """verifies if user is not admin"""
     return logged_user['role'] == 'user'
+
+# def validate_user(logged_user):
+#     """ checks for the user who is logged on to the system """
+#     return logged_user['user_id'] == user_id
 
 
 class Secure_jwt:
