@@ -1,7 +1,17 @@
 """ module tests_users """
 from tests.base import TestUser
-from . import(create_admin, login_admin, create_user, login_user, invalid_username, invalid_firstname, invalid_lastname, \
-invalid_password, invalid_email, invalid_role)
+from . import(
+    create_admin,
+    login_admin,
+    create_user,
+    login_user,
+    invalid_username,
+    invalid_firstname,
+    invalid_lastname,
+    invalid_password,
+    invalid_email,
+    invalid_role)
+
 
 class TestApp(TestUser):
 
@@ -16,9 +26,8 @@ class TestApp(TestUser):
 
     def test_user_login(self):
         self.signup_user(create_user)
-        response = self.login_user(login_user)
-        self.assertIn("You are now logged in", str(response.data))
-        self.assertEqual(response.status_code, 200)
+        response = self.login_user()
+        self.assertEqual(response['status'], 200)
 
     def test_invalid_firstname(self):
         response = self.invalid_firstname(invalid_firstname)
@@ -35,4 +44,3 @@ class TestApp(TestUser):
     def test_invalid_role(self):
         response = self.invalid_role(invalid_role)
         self.assertEqual(response.status_code, 400)
-

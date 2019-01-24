@@ -1,10 +1,6 @@
 from flask import jsonify, make_response, request
+from api.v1.utilities.helpers import verify_admin, secured, verify_user
 from api.v1 import app
-from flask_jwt_extended import (
-    JWTManager,
-    jwt_required,
-    create_access_token,
-    get_jwt_identity)
 from api.v1.models import Interventions
 from api.v1.utilities.helpers import patch_interventions
 
@@ -12,8 +8,12 @@ incid = Interventions()
 
 
 @app.route('/api/v1/interventions', methods=['POST'])
-def create_intervention():
+@secured
+def create_intervention(logged_user):
     """ method implementing create intervention api """
+    if verify_admin(logged_user):
+        return jsonify(
+            {'status': 403, 'error': "You do not have privileges to perform this request"}), 403
     try:
         form_data = request.get_json(force=True)
         intervention = {
@@ -33,7 +33,7 @@ def create_intervention():
                 {'status': 400, 'error': 'incident type can only be intervention'}), 400)
         elif not incid.valid_comment(intervention['comment']):
             return jsonify(
-            {'error': 'comment field should be a string and should contain alphabets'}), 400
+                {'error': 'comment field should be a string and should contain alphabets'}), 400
         elif not incid.validate_location(intervention['location']):
             return make_response(
                 jsonify(
@@ -56,7 +56,8 @@ def create_intervention():
 
 
 @app.route('/api/v1/interventions', methods=['GET'])
-def get_interventions():
+@secured
+def get_interventions(logged_user):
     """ method implementing get all redflags endpoint """
     all_interventions = incid.get_interventions()
     if all_interventions:
@@ -65,7 +66,8 @@ def get_interventions():
 
 
 @app.route('/api/v1/interventions/<int:intervention_id>', methods=['GET'])
-def get_specific_intervention(intervention_id):
+@secured
+def get_specific_intervention(logged_user, intervention_id):
     """ gets a specific intervention by id """
     get_intervention = incid.get_single_intervention(intervention_id)
     if get_intervention:
@@ -79,8 +81,15 @@ def get_specific_intervention(intervention_id):
 @app.route(
     '/api/v1/interventions/<int:intervention_id>/location',
     methods=['PATCH'])
-def edit_intervention_location(intervention_id):
+@secured
+def edit_intervention_location(logged_user, intervention_id):
     """ edits the location of an intervention """
+    if verify_admin(logged_user):
+        return jsonify(
+            {'status': 403, 'error': "You do not have privileges to perform this request"}), 403
+    if verify_admin(logged_user):
+        return jsonify(
+            {'status': 403, 'error': "You do not have privileges to perform this request"}), 403
     try:
         data = request.get_json(force=True)
 
@@ -88,7 +97,7 @@ def edit_intervention_location(intervention_id):
             intervention_id, 'location', data['location'])
 
         return make_response(jsonify({"message": message}), status)
-    except:
+    except Exception:
         return jsonify(
             {"error": "Please enter a valid key for location field as location"}), 400
 
@@ -96,8 +105,12 @@ def edit_intervention_location(intervention_id):
 @app.route(
     '/api/v1/interventions/<int:intervention_id>/comment',
     methods=['PATCH'])
-def edit_intervention_comment(intervention_id):
+@secured
+def edit_intervention_comment(logged_user, intervention_id):
     """ edits the comment of an intervention """
+    if verify_admin(logged_user):
+        return jsonify(
+            {'status': 403, 'error': "You do not have privileges to perform this request"}), 403
     try:
         data = request.get_json(force=True)
 
@@ -105,7 +118,7 @@ def edit_intervention_comment(intervention_id):
             intervention_id, 'comment', data['comment'])
 
         return make_response(jsonify({"message": message}), status)
-    except:
+    except Exception:
         return jsonify(
             {"error": "Please enter a valid key for comment field as comment"}), 400
 
@@ -113,13 +126,12 @@ def edit_intervention_comment(intervention_id):
 @app.route(
     '/api/v1/interventions/<int:intervention_id>/status',
     methods=['PATCH'])
-@jwt_required
-def edit_intervention_status(intervention_id):
+@secured
+def edit_intervention_status(logged_user, intervention_id):
     """ edits the status of an intervention """
-    current_user = get_jwt_identity()
-    if current_user['role'] != 'admin':
+    if verify_user(logged_user):
         return jsonify(
-            {'message': 'Unauthorised access, please login as admin'}), 401
+            {'status': 403, 'error': "You do not have privileges to perform this request"}), 403
     try:
         data = request.get_json(force=True)
 
@@ -127,13 +139,14 @@ def edit_intervention_status(intervention_id):
             intervention_id, 'status', data['status'])
 
         return make_response(jsonify({"message": message}), status)
-    except:
+    except Exception:
         return jsonify(
             {"error": "Please enter a valid key for status field as status"}), 400
 
 
 @app.route('/api/v1/interventions/<int:intervention_id>', methods=['DELETE'])
-def del_intervention(intervention_id):
+@secured
+def del_intervention(logged_user, intervention_id):
     """ deletes a redflag from records """
     intervention_list = incid.get_single_intervention(intervention_id)
     if intervention_list:

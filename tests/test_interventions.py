@@ -1,8 +1,20 @@
 """ module tests_interventions """
 from tests.base import TestUser
-from . import(intervention, incident_type, empty_comment_int, empty_image_int, invalid_intervention, \
-edit_int_location, edit_invalid_int_location, edit_int_comment, edit_invalid_int_comment, edit_int_status, \
-edit_invalid_int_status, post_as_draft, empty_int_location)
+from . import(
+    intervention,
+    incident_type,
+    empty_comment_int,
+    empty_image_int,
+    invalid_intervention,
+    edit_int_location,
+    edit_invalid_int_location,
+    edit_int_comment,
+    edit_invalid_int_comment,
+    edit_int_status,
+    edit_invalid_int_status,
+    post_as_draft,
+    empty_int_location)
+
 
 class TestApp(TestUser):
 
@@ -13,17 +25,23 @@ class TestApp(TestUser):
 
     def test_incident_type(self):
         response = self.incident_type(incident_type)
-        self.assertIn('incident type can only be intervention', str(response.data))
+        self.assertIn(
+            'incident type can only be intervention', str(
+                response.data))
         self.assertEqual(response.status_code, 400)
-    
+
     def test_post_draft(self):
         response = self.post_as_draft(post_as_draft)
-        self.assertIn('status can only be posted as a draft', str(response.data))
+        self.assertIn(
+            'status can only be posted as a draft', str(
+                response.data))
         self.assertEqual(response.status_code, 400)
 
     def test_empty_comment(self):
         response = self.int_comment_empty(empty_comment_int)
-        self.assertIn('comment field should be a string and should contain alphabets', str(response.data))
+        self.assertIn(
+            'comment field should be a string and should contain alphabets', str(
+                response.data))
         self.assertEqual(response.status_code, 400)
 
     def test_empty_int_location(self):
@@ -61,22 +79,24 @@ class TestApp(TestUser):
         self.create_intervention(intervention)
         self.get_single_intervention()
         response = self.delete_intervention()
-        self.assertIn('Intervention record has been deleted', str(response.data))
+        self.assertIn(
+            'Intervention record has been deleted', str(
+                response.data))
         self.assertEqual(response.status_code, 200)
-    
+
     def test_deleted_intervention(self):
         self.get_single_intervention()
         response = self.delete_intervention()
         self.assertIn('intervention doesnot exist', str(response.data))
         self.assertEqual(response.status_code, 404)
 
-    def test_edit_redflag_location(self):
+    def test_edit_int_location(self):
         self.create_intervention(intervention)
         self.get_single_intervention()
         response = self.edit_int_location(edit_int_location)
         self.assertIn("Updated interventions location", str(response.data))
         self.assertEqual(response.status_code, 200)
-    
+
     def test_edit_int_location_not_found(self):
         response = self.edit_int_location(edit_int_location)
         self.assertIn("Intervention record not found", str(response.data))
@@ -85,7 +105,9 @@ class TestApp(TestUser):
     def test_edit_invalid_int_location(self):
         self.get_single_intervention()
         response = self.edit_invalid_int_location(edit_invalid_int_location)
-        self.assertIn("Please enter a valid key for location field as location", str(response.data))
+        self.assertIn(
+            "Please enter a valid key for location field as location", str(
+                response.data))
         self.assertEqual(response.status_code, 400)
 
     def test_edit_int_comment(self):
@@ -103,7 +125,9 @@ class TestApp(TestUser):
     def test_edit_invalid_int_comment(self):
         self.get_single_intervention()
         response = self.edit_invalid_int_comment(edit_invalid_int_comment)
-        self.assertIn("Please enter a valid key for comment field as comment", str(response.data))
+        self.assertIn(
+            "Please enter a valid key for comment field as comment", str(
+                response.data))
         self.assertEqual(response.status_code, 400)
 
     def test_edit_int_status(self):
@@ -121,5 +145,7 @@ class TestApp(TestUser):
     def test_edit_invalid_int_status(self):
         self.get_single_intervention()
         response = self.edit_invalid_int_status(edit_invalid_int_status)
-        self.assertIn("Please enter a valid key for status field as status", str(response.data))
+        self.assertIn(
+            "Please enter a valid key for status field as status", str(
+                response.data))
         self.assertEqual(response.status_code, 400)
