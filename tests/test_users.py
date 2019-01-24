@@ -16,9 +16,8 @@ class TestApp(TestUser):
 
     def test_user_login(self):
         self.signup_user(create_user)
-        response = self.login_user(login_user)
-        self.assertIn("You are now logged in", str(response.data))
-        self.assertEqual(response.status_code, 200)
+        response = self.login_user()
+        self.assertEqual(response['status'], 200)
 
     def test_invalid_firstname(self):
         response = self.invalid_firstname(invalid_firstname)
