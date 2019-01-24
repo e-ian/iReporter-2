@@ -97,7 +97,7 @@ def edit_intervention_location(logged_user, intervention_id):
             intervention_id, 'location', data['location'])
 
         return make_response(jsonify({"message": message}), status)
-    except Exception:
+    except KeyError:
         return jsonify(
             {"error": "Please enter a valid key for location field as location"}), 400
 
@@ -118,7 +118,7 @@ def edit_intervention_comment(logged_user, intervention_id):
             intervention_id, 'comment', data['comment'])
 
         return make_response(jsonify({"message": message}), status)
-    except Exception:
+    except KeyError:
         return jsonify(
             {"error": "Please enter a valid key for comment field as comment"}), 400
 
@@ -139,7 +139,7 @@ def edit_intervention_status(logged_user, intervention_id):
             intervention_id, 'status', data['status'])
 
         return make_response(jsonify({"message": message}), status)
-    except Exception:
+    except KeyError:
         return jsonify(
             {"error": "Please enter a valid key for status field as status"}), 400
 

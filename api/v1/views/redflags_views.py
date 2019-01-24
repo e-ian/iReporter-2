@@ -117,7 +117,7 @@ def edit_redflags_comments(logged_user, redflag_id):
             redflag_id, 'comment', data['comment'])
 
         return make_response(jsonify({"message": message}), status)
-    except BaseException:
+    except KeyError:
         return jsonify(
             {"error": "Please enter a valid key for comment field as comment"}), 400
 
@@ -135,7 +135,7 @@ def edit_redflags_status(logged_user, redflag_id):
         message, status = update_redflags(redflag_id, 'status', data['status'])
 
         return make_response(jsonify({"message": message}), status)
-    except BaseException:
+    except KeyError:
         return jsonify(
             {"error": "Please enter a valid key for status field as status"}), 400
 
