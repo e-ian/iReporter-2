@@ -118,19 +118,27 @@ class TestUser(unittest.TestCase):
         return response
 
     def get_redflags(self):
-        response = self.client.get("/api/v1/redflags", headers=self.user_header())
+        response = self.client.get(
+            "/api/v1/redflags",
+            headers=self.user_header())
         return response
 
     def get_single_redflag(self):
-        response = self.client.get("/api/v1/redflags/1", headers=self.user_header())
+        response = self.client.get(
+            "/api/v1/redflags/1",
+            headers=self.user_header())
         return response
 
     def redflag_not_found(self):
-        response = self.client.get("/api/v1/redflags/10000", headers=self.user_header())
+        response = self.client.get(
+            "/api/v1/redflags/10000",
+            headers=self.user_header())
         return response
 
     def delete_redflag(self):
-        response = self.client.delete("/api/v1/redflags/1", headers=self.user_header())
+        response = self.client.delete(
+            "/api/v1/redflags/1",
+            headers=self.user_header())
         return response
 
     def edit_flag_location(self, edit_redflag_location):
@@ -178,19 +186,25 @@ class TestUser(unittest.TestCase):
     def edit_flag_status(self, edit_redflag_status):
         response = self.client.patch(
             "/api/v1/redflags/1/status",
-            data=json.dumps(edit_redflag_status), content_type = 'application/json', headers=self.admin_header())
+            data=json.dumps(edit_redflag_status),
+            content_type='application/json',
+            headers=self.admin_header())
         return response
 
     def edit_flag_status_not_found(self, edit_redflag_status_not_found):
         response = self.client.patch(
             "/api/v1/redflags/10000/status",
-            data=json.dumps(edit_redflag_status_not_found), content_type= 'application/json', headers=self.admin_header())
+            data=json.dumps(edit_redflag_status_not_found),
+            content_type='application/json',
+            headers=self.admin_header())
         return response
 
     def edit_invalid_flag_status(self, edit_invalid_redflag_status):
         response = self.client.patch(
             "/api/v1/redflags/1/status",
-            data=json.dumps(edit_invalid_redflag_status), content_type= 'application/json', headers=self.admin_header())
+            data=json.dumps(edit_invalid_redflag_status),
+            content_type='application/json',
+            headers=self.admin_header())
         return response
 
     def home_route(self):
@@ -202,7 +216,7 @@ class TestUser(unittest.TestCase):
     def create_intervention(self, intervention):
         response = self.client.post(
             "/api/v1/interventions", content_type='application/json',
-            data=json.dumps(intervention), headers=self.user_header())            
+            data=json.dumps(intervention), headers=self.user_header())
         return response
 
     def incident_type(self, empty_incident_type):
@@ -255,19 +269,27 @@ class TestUser(unittest.TestCase):
         return response
 
     def get_interventions(self):
-        response = self.client.get("/api/v1/interventions", headers=self.user_header())
+        response = self.client.get(
+            "/api/v1/interventions",
+            headers=self.user_header())
         return response
 
     def get_single_intervention(self):
-        response = self.client.get("/api/v1/interventions/1", headers=self.user_header())
+        response = self.client.get(
+            "/api/v1/interventions/1",
+            headers=self.user_header())
         return response
 
     def intervention_not_found(self):
-        response = self.client.get("/api/v1/interventions/10000", headers=self.user_header())
+        response = self.client.get(
+            "/api/v1/interventions/10000",
+            headers=self.user_header())
         return response
 
     def delete_intervention(self):
-        response = self.client.delete("/api/v1/interventions/1", headers=self.user_header())
+        response = self.client.delete(
+            "/api/v1/interventions/1",
+            headers=self.user_header())
         return response
 
     def edit_int_location(self, edit_int_location):
@@ -316,20 +338,22 @@ class TestUser(unittest.TestCase):
         response = self.client.patch(
             "/api/v1/interventions/1/status",
             data=json.dumps(edit_int_status),
-                content_type= 'application/json', headers=self.admin_header())
+            content_type='application/json', headers=self.admin_header())
         return response
 
     def edit_int_status_not_found(self, edit_int_status):
         response = self.client.patch(
             "/api/v1/interventions/10000/status",
-            data=json.dumps(edit_int_status), content_type= 'application/json', headers=self.admin_header())
+            data=json.dumps(edit_int_status),
+            content_type='application/json',
+            headers=self.admin_header())
         return response
 
     def edit_invalid_int_status(self, edit_invalid_int_status):
         response = self.client.patch(
             "/api/v1/interventions/1/status",
-            data=json.dumps(edit_invalid_int_status),           
-            content_type= 'application/json', headers=self.admin_header())
+            data=json.dumps(edit_invalid_int_status),
+            content_type='application/json', headers=self.admin_header())
         return response
 
     """ base tests for users """

@@ -11,12 +11,14 @@ red = Redflags()
 incid = Interventions()
 user = Users()
 
+
 def update_redflags(redflag_id, column, column_data):
     flag_list = red.get_specific_redflag(redflag_id)
     if flag_list:
         red.edit_redflags(redflag_id, column, column_data)
         return "Updated redflags {}".format(column), 200
     return "Redflag not found in records", 404
+
 
 def patch_interventions(intervention_id, column, column_data):
     incid_list = incid.get_single_intervention(intervention_id)
@@ -25,9 +27,11 @@ def patch_interventions(intervention_id, column, column_data):
         return "Updated interventions {}".format(column), 200
     return "Intervention record not found", 404
 
+
 def verify_admin(logged_user):
     """verifies if user is admin"""
     return logged_user['role'] == 'admin'
+
 
 def verify_user(logged_user):
     """verifies if user is not admin"""
@@ -46,7 +50,9 @@ class Secure_jwt:
         }
         return jwt.encode(payload, 'akokoro', algorithm='HS256')
 
+
 instan_jwt = Secure_jwt()
+
 
 def secured(f):
     """Decorator for protecting routes"""
@@ -56,17 +62,17 @@ def secured(f):
         if 'Authorization' in request.headers:
             access_token = request.headers['Authorization']
         if not access_token:
-            return jsonify({'status': 401, 'error': 'Missing authorization token'}), 401
+            return jsonify(
+                {'status': 401, 'error': 'Missing authorization token'}), 401
 
         try:
             payload = jwt.decode(access_token, 'akokoro', algorithms=['HS256'])
             logged_user = user.check_username(payload['user'])
         except jwt.ExpiredSignatureError:
-            return jsonify({'status': 401, 'error': 'Access token has expired'}), 401
+            return jsonify(
+                {'status': 401, 'error': 'Access token has expired'}), 401
         except jwt.InvalidTokenError:
-            return jsonify({'status': 401, 'error': 'Access token is invalid'}), 401
+            return jsonify(
+                {'status': 401, 'error': 'Access token is invalid'}), 401
         return f(logged_user, *args, **kwargs)
     return decorator
-
-
-

@@ -52,6 +52,7 @@ def create_user():
     return make_response(
         jsonify({"message": "User registered successfully"}), 201)
 
+
 @app.route('/api/v1/auth/admin', methods=['POST'])
 def create_admin():
     """ method implementing the signup user endpoint """
@@ -110,7 +111,8 @@ def sigin_user():
     login = user.login_user(login_data)
     if not login:
         return jsonify({'message': 'username doesnot exist'})
-    pass_check = user.verify_password(login["password"], login_data["password"])
+    pass_check = user.verify_password(
+        login["password"], login_data["password"])
     if login and pass_check:
         access_token = instan_jwt.encode_token(login_data['username'])
         return jsonify({"status": 200, "message": "You are now logged in",

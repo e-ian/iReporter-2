@@ -12,7 +12,8 @@ incid = Interventions()
 def create_intervention(logged_user):
     """ method implementing create intervention api """
     if verify_admin(logged_user):
-        return jsonify({'status': 403, 'error': "You do not have privileges to perform this request"}), 403
+        return jsonify(
+            {'status': 403, 'error': "You do not have privileges to perform this request"}), 403
     try:
         form_data = request.get_json(force=True)
         intervention = {
@@ -84,7 +85,8 @@ def get_specific_intervention(logged_user, intervention_id):
 def edit_intervention_location(logged_user, intervention_id):
     """ edits the location of an intervention """
     if verify_admin(logged_user):
-        return jsonify({'status': 403, 'error': "You do not have privileges to perform this request"}), 403
+        return jsonify(
+            {'status': 403, 'error': "You do not have privileges to perform this request"}), 403
     if verify_admin(logged_user):
         return jsonify(
             {'status': 403, 'error': "You do not have privileges to perform this request"}), 403
@@ -107,7 +109,8 @@ def edit_intervention_location(logged_user, intervention_id):
 def edit_intervention_comment(logged_user, intervention_id):
     """ edits the comment of an intervention """
     if verify_admin(logged_user):
-        return jsonify({'status': 403, 'error': "You do not have privileges to perform this request"}), 403
+        return jsonify(
+            {'status': 403, 'error': "You do not have privileges to perform this request"}), 403
     try:
         data = request.get_json(force=True)
 
@@ -127,7 +130,8 @@ def edit_intervention_comment(logged_user, intervention_id):
 def edit_intervention_status(logged_user, intervention_id):
     """ edits the status of an intervention """
     if verify_user(logged_user):
-        return jsonify({'status': 403, 'error': "You do not have privileges to perform this request"}), 403
+        return jsonify(
+            {'status': 403, 'error': "You do not have privileges to perform this request"}), 403
     try:
         data = request.get_json(force=True)
 

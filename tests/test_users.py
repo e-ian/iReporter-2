@@ -1,7 +1,17 @@
 """ module tests_users """
 from tests.base import TestUser
-from . import(create_admin, login_admin, create_user, login_user, invalid_username, invalid_firstname, invalid_lastname, \
-invalid_password, invalid_email, invalid_role)
+from . import(
+    create_admin,
+    login_admin,
+    create_user,
+    login_user,
+    invalid_username,
+    invalid_firstname,
+    invalid_lastname,
+    invalid_password,
+    invalid_email,
+    invalid_role)
+
 
 class TestApp(TestUser):
 
@@ -34,4 +44,3 @@ class TestApp(TestUser):
     def test_invalid_role(self):
         response = self.invalid_role(invalid_role)
         self.assertEqual(response.status_code, 400)
-

@@ -61,7 +61,7 @@ class Redflags():
         dictcur.execute(query)
         data = dictcur.fetchone()
         return data
-    
+
     def validate_if_redflag(self, incident_type):
         """ method to validate if the input incident type """
         incident_type = str(incident_type).lower()
@@ -131,7 +131,7 @@ class Interventions:
         if status not in ("draft"):
             return False
         else:
-            return True   
+            return True
 
     def validate_incident_type(self, incident_type):
         """ method to validate if the input incident type """
@@ -158,6 +158,7 @@ class Interventions:
             return False
         else:
             return True
+
 
 class Users:
     """class handling the user model"""
@@ -253,4 +254,3 @@ class Users:
             return False
         else:
             return True
-

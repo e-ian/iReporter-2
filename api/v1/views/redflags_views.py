@@ -7,6 +7,7 @@ from api.v1.utilities.helpers import update_redflags
 red = Redflags()
 incid = Interventions()
 
+
 @app.route('/')
 def home():
     """default route for homepage"""
@@ -19,7 +20,8 @@ def home():
 def create_redflag(logged_user):
     """ method implementing the create redflag api """
     if verify_admin(logged_user):
-        return jsonify({'status': 403, 'error': "You do not have privileges to perform this request"}), 403
+        return jsonify(
+            {'status': 403, 'error': "You do not have privileges to perform this request"}), 403
     try:
         data = request.get_json(force=True)
         redflag = {
@@ -38,7 +40,7 @@ def create_redflag(logged_user):
                 {'status': 400, 'error': 'incident type can only be redflag'}), 400)
         elif not incid.valid_comment(redflag['comment']):
             return jsonify(
-            {'error': 'comment field should be a string and should contain alphabets'}), 400
+                {'error': 'comment field should be a string and should contain alphabets'}), 400
         elif not incid.validate_location(redflag['location']):
             return make_response(
                 jsonify(
@@ -87,7 +89,8 @@ def get_specific_redflag(logged_user, redflag_id):
 def edit_redflags_location(logged_user, redflag_id):
     """ edits the location of a redflag """
     if verify_admin(logged_user):
-        return jsonify({'status': 403, 'error': "You do not have privileges to perform this request"}), 403
+        return jsonify(
+            {'status': 403, 'error': "You do not have privileges to perform this request"}), 403
     try:
         data = request.get_json(force=True)
 
@@ -105,7 +108,8 @@ def edit_redflags_location(logged_user, redflag_id):
 def edit_redflags_comments(logged_user, redflag_id):
     """ edits the comments of a redflag """
     if verify_admin(logged_user):
-        return jsonify({'status': 403, 'error': "You do not have privileges to perform this request"}), 403
+        return jsonify(
+            {'status': 403, 'error': "You do not have privileges to perform this request"}), 403
     try:
         data = request.get_json(force=True)
 
@@ -113,7 +117,7 @@ def edit_redflags_comments(logged_user, redflag_id):
             redflag_id, 'comment', data['comment'])
 
         return make_response(jsonify({"message": message}), status)
-    except:
+    except BaseException:
         return jsonify(
             {"error": "Please enter a valid key for comment field as comment"}), 400
 
@@ -123,14 +127,15 @@ def edit_redflags_comments(logged_user, redflag_id):
 def edit_redflags_status(logged_user, redflag_id):
     """ edits the status of a redflag """
     if verify_user(logged_user):
-        return jsonify({'status': 403, 'error': "You do not have privileges to perform this request"}), 403
+        return jsonify(
+            {'status': 403, 'error': "You do not have privileges to perform this request"}), 403
     try:
         data = request.get_json(force=True)
 
         message, status = update_redflags(redflag_id, 'status', data['status'])
 
         return make_response(jsonify({"message": message}), status)
-    except:
+    except BaseException:
         return jsonify(
             {"error": "Please enter a valid key for status field as status"}), 400
 
@@ -140,7 +145,8 @@ def edit_redflags_status(logged_user, redflag_id):
 def del_redflag(logged_user, redflag_id):
     """ deletes a redflag from records """
     if verify_admin(logged_user):
-        return jsonify({'status': 403, 'error': "You do not have privileges to perform this request"}), 403
+        return jsonify(
+            {'status': 403, 'error': "You do not have privileges to perform this request"}), 403
     flag_list = red.get_specific_redflag(redflag_id)
     if flag_list:
         red.delete_redflag(redflag_id)
