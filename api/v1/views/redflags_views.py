@@ -70,7 +70,6 @@ def get_redflags(logged_user):
         return make_response(
             jsonify({'status': 200, 'redflag_list': all_redflags}))
 
-
 @app.route('/api/v1/redflags/<int:redflag_id>', methods=['GET'])
 @secured
 def get_specific_redflag(logged_user, redflag_id):
