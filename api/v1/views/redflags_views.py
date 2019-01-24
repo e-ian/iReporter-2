@@ -1,10 +1,6 @@
 from flask import jsonify, make_response, request
+from api.v1.utilities.helpers import verify_admin, secured
 from api.v1 import app
-from flask_jwt_extended import (
-    JWTManager,
-    jwt_required,
-    create_access_token,
-    get_jwt_identity)
 from api.v1.models import Redflags, Interventions
 from api.v1.utilities.helpers import update_redflags
 
@@ -19,7 +15,8 @@ def home():
 
 
 @app.route('/api/v1/redflags', methods=['POST'])
-def create_redflag():
+@secured
+def create_redflag(logged_user):
     """ method implementing the create redflag api """
     try:
         data = request.get_json(force=True)
@@ -61,7 +58,8 @@ def create_redflag():
 
 
 @app.route('/api/v1/redflags', methods=['GET'])
-def get_redflags():
+@secured
+def get_redflags(logged_user):
     """ method implementing get all redflags endpoint """
     all_redflags = red.get_redflags()
     if all_redflags:
@@ -70,7 +68,8 @@ def get_redflags():
 
 
 @app.route('/api/v1/redflags/<int:redflag_id>', methods=['GET'])
-def get_specific_redflag(redflag_id):
+@secured
+def get_specific_redflag(logged_user, redflag_id):
     """ gets a specific redflag by id """
     get_redflag = red.get_specific_redflag(redflag_id)
     if get_redflag:
@@ -82,7 +81,8 @@ def get_specific_redflag(redflag_id):
 
 
 @app.route('/api/v1/redflags/<int:redflag_id>/location', methods=['PATCH'])
-def edit_redflags_location(redflag_id):
+@secured
+def edit_redflags_location(logged_user, redflag_id):
     """ edits the location of a redflag """
     try:
         data = request.get_json(force=True)
@@ -97,7 +97,8 @@ def edit_redflags_location(redflag_id):
 
 
 @app.route('/api/v1/redflags/<int:redflag_id>/comment', methods=['PATCH'])
-def edit_redflags_comments(redflag_id):
+@secured
+def edit_redflags_comments(logged_user, redflag_id):
     """ edits the comments of a redflag """
     try:
         data = request.get_json(force=True)
@@ -112,13 +113,9 @@ def edit_redflags_comments(redflag_id):
 
 
 @app.route('/api/v1/redflags/<int:redflag_id>/status', methods=['PATCH'])
-@jwt_required
-def edit_redflags_status(redflag_id):
+@secured
+def edit_redflags_status(logged_user, redflag_id):
     """ edits the status of a redflag """
-    current_user = get_jwt_identity()
-    if current_user['role'] != 'admin':
-        return jsonify(
-            {'message': 'Unauthorised access, please login as admin'}), 401
     try:
         data = request.get_json(force=True)
 
@@ -131,7 +128,8 @@ def edit_redflags_status(redflag_id):
 
 
 @app.route('/api/v1/redflags/<int:redflag_id>', methods=['DELETE'])
-def del_redflag(redflag_id):
+@secured
+def del_redflag(logged_user, redflag_id):
     """ deletes a redflag from records """
     flag_list = red.get_specific_redflag(redflag_id)
     if flag_list:
