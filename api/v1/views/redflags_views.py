@@ -1,5 +1,5 @@
 from flask import jsonify, make_response, request
-from api.v1.utilities.helpers import verify_admin, secured
+from api.v1.utilities.helpers import verify_admin, secured, verify_user
 from api.v1 import app
 from api.v1.models import Redflags, Interventions
 from api.v1.utilities.helpers import update_redflags
@@ -122,6 +122,8 @@ def edit_redflags_comments(logged_user, redflag_id):
 @secured
 def edit_redflags_status(logged_user, redflag_id):
     """ edits the status of a redflag """
+    if verify_user(logged_user):
+        return jsonify({'status': 403, 'error': "You do not have privileges to perform this request"}), 403
     try:
         data = request.get_json(force=True)
 
