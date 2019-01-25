@@ -130,22 +130,8 @@ class TestApp(TestUser):
                 response.data))
         self.assertEqual(response.status_code, 400)
 
-    # def test_edit_int_status(self):
-    #     self.create_intervention(intervention)
-    #     self.get_single_intervention()
-    #     response = self.edit_int_status(edit_int_status)
-    #     self.assertIn("Updated interventions status", str(response.data))
-    #     self.assertEqual(response.status_code, 200)
-
     def test_edit_int_status_not_found(self):
         response = self.edit_int_status_not_found(edit_int_status)
         self.assertIn("Intervention record not found", str(response.data))
         self.assertEqual(response.status_code, 404)
 
-    # def test_edit_invalid_int_status(self):
-    #     self.get_single_intervention()
-    #     response = self.edit_invalid_int_status(edit_invalid_int_status)
-    #     self.assertIn(
-    #         "Please enter a valid key for status field as status", str(
-    #             response.data))
-    #     self.assertEqual(response.status_code, 400)
