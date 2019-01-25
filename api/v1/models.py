@@ -13,18 +13,18 @@ dictcur = db.dict_cursor
 class Redflags():
     """class to handle Redflag model"""
 
-    def create_redflag(self, data):
+    def create_redflag(self, created_by, incident_type, location, status, image, comment):
         """ method to create redflags """
         query = "INSERT INTO redflags(created_by, incident_type, \
         location, status, image, comment) VALUES('{}', '{}', '{}', '{}', '{}', '{}')".format(
-            data['created_by'],
-            data['incident_type'],
-            data['location'],
-            data['status'],
-            data['image'],
-            data['comment'])
+            created_by,
+            incident_type,
+            location,
+            status,
+            image,
+            comment)
         cursor.execute(query)
-        return self.check_redflag(data['created_by'], data['comment'])
+        return self.check_redflag(created_by, comment)
 
     def get_redflags(self):
         """method that returns all redflag records"""
@@ -74,19 +74,18 @@ class Redflags():
 class Interventions:
     """ class to handle Intervention model"""
 
-    def create_intervention(self, form_data):
+    def create_intervention(self, created_by, incident_type, location, status, image, comment):
         """ method to create an intervention record """
         command = "INSERT INTO interventions(created_by, incident_type, \
         location, status, image, comment) VALUES('{}', '{}', '{}', '{}', '{}', '{}')".format(
-            form_data['created_by'],
-            form_data['incident_type'],
-            form_data['location'],
-            form_data['status'],
-            form_data['image'],
-            form_data['comment'])
+            created_by,
+            incident_type,
+            location,
+            status,
+            image,
+            comment)
         cursor.execute(command)
-        return self.check_intervention(
-            form_data['created_by'], form_data['comment'])
+        return self.check_intervention(created_by, comment)
 
     def get_interventions(self):
         """ method to get all interventions """
@@ -192,6 +191,13 @@ class Users:
     def check_username(self, username):
         """ method to check if a username is already taken"""
         query = "SELECT * FROM users WHERE username='{}'".format(username)
+        dictcur.execute(query)
+        data = dictcur.fetchone()
+        return data
+
+    def check_email(self, email):
+        """ method to check if email is already taken """
+        query = "SELECT * FROM users WHERE email='{}'".format(email)
         dictcur.execute(query)
         data = dictcur.fetchone()
         return data

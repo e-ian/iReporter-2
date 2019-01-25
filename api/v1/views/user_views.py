@@ -40,6 +40,9 @@ def create_user():
     check_user = user.check_username(username)
     if check_user:
         return jsonify({'message': 'username already exist'}), 400
+    check_email = user.check_email(email)
+    if check_email:
+        return jsonify({'message': 'email already exists'}), 400
     signup_data = {
         "firstname": firstname,
         "lastname": lastname,
@@ -87,6 +90,9 @@ def create_admin():
     check_user = user.check_username(username)
     if check_user:
         return jsonify({'message': 'Admin username already exist'}), 400
+    check_email = user.check_email(email)
+    if check_email:
+        return jsonify({'message': 'email already exists'}), 400
     signup_data = {
         "firstname": firstname,
         "lastname": lastname,

@@ -16,39 +16,36 @@ def create_intervention(logged_user):
             {'status': 403, 'error': "You do not have privileges to perform this request"}), 403
     try:
         form_data = request.get_json(force=True)
-        intervention = {
-            'created_by': form_data['created_by'],
-            'incident_type': form_data['incident_type'],
-            'location': form_data['location'],
-            'status': form_data['status'],
-            'image': form_data['image'],
-            'comment': form_data['comment']
-        }
-
-        if not incid.check_status(intervention['status']):
+        incident_type = form_data['incident_type']
+        location = form_data['location']
+        status = form_data['status']
+        image = form_data['image']
+        comment = form_data['comment']
+        if not incid.check_status(status):
             return make_response(jsonify(
                 {'status': 400, 'error': 'status can only be posted as a draft'}), 400)
-        elif not incid.validate_incident_type(intervention['incident_type']):
+        elif not incid.validate_incident_type(incident_type):
             return make_response(jsonify(
                 {'status': 400, 'error': 'incident type can only be intervention'}), 400)
-        elif not incid.valid_comment(intervention['comment']):
+        elif not incid.valid_comment(comment):
             return jsonify(
                 {'error': 'comment field should be a string and should contain alphabets'}), 400
-        elif not incid.validate_location(intervention['location']):
+        elif not incid.validate_location(location):
             return make_response(
                 jsonify(
                     {
                         'status': 400,
                         'error': 'location field cannot be empty'}), 400)
-        elif not incid.validate_image(intervention['image']):
+        elif not incid.validate_image(image):
             return make_response(jsonify(
                 {'status': 400, 'error': 'The image field cannot be empty'}), 400)
         check_intervention = incid.check_intervention(
-            intervention['created_by'], intervention['comment'])
+            logged_user['user_id'], comment)
         if check_intervention:
             return jsonify(
                 {"message": "Intervention record already exists"}), 400
-        valid_intervention = incid.create_intervention(intervention)
+        valid_intervention = incid.create_intervention(
+            logged_user['user_id'], incident_type, location, status, image, comment)
         return make_response(jsonify({"status": 201, "data": [{"intervention_id": int(
             valid_intervention['intervention_id']), "message": "Created intervention record"}]}), 201)
     except Exception:
@@ -73,9 +70,8 @@ def get_specific_intervention(logged_user, intervention_id):
     if get_intervention:
         return make_response(
             jsonify({'status': 200, 'intervention': get_intervention}), 200)
-    else:
-        return make_response(
-            jsonify({'status': 404, 'message': 'Intervention record not found'}), 400)
+    return make_response(
+        jsonify({'status': 404, 'message': 'Intervention record not found'}), 400)
 
 
 @app.route(
@@ -84,9 +80,6 @@ def get_specific_intervention(logged_user, intervention_id):
 @secured
 def edit_intervention_location(logged_user, intervention_id):
     """ edits the location of an intervention """
-    if verify_admin(logged_user):
-        return jsonify(
-            {'status': 403, 'error': "You do not have privileges to perform this request"}), 403
     if verify_admin(logged_user):
         return jsonify(
             {'status': 403, 'error': "You do not have privileges to perform this request"}), 403

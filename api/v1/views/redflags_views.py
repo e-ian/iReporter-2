@@ -24,37 +24,40 @@ def create_redflag(logged_user):
             {'status': 403, 'error': "You do not have privileges to perform this request"}), 403
     try:
         data = request.get_json(force=True)
-        redflag = {
-            'created_by': data['created_by'],
-            'incident_type': data['incident_type'],
-            'location': data['location'],
-            'status': data['status'],
-            'image': data['image'],
-            'comment': data['comment']
-        }
-        if not incid.check_status(redflag['status']):
+        incident_type = data['incident_type']
+        location = data['location']
+        status = data['status']
+        image = data['image']
+        comment = data['comment']
+        if not incid.check_status(status):
             return make_response(jsonify(
                 {'status': 400, 'error': 'status can only be posted as a draft'}), 400)
-        elif not red.validate_if_redflag(redflag['incident_type']):
+        elif not red.validate_if_redflag(incident_type):
             return make_response(jsonify(
                 {'status': 400, 'error': 'incident type can only be redflag'}), 400)
-        elif not incid.valid_comment(redflag['comment']):
+        elif not incid.valid_comment(comment):
             return jsonify(
                 {'error': 'comment field should be a string and should contain alphabets'}), 400
-        elif not incid.validate_location(redflag['location']):
+        elif not incid.validate_location(location):
             return make_response(
                 jsonify(
                     {
                         'status': 400,
                         'error': 'location field cannot be empty'}), 400)
-        elif not incid.validate_image(redflag['image']):
+        elif not incid.validate_image(image):
             return make_response(jsonify(
                 {'status': 400, 'error': 'The image field cannot be empty'}), 400)
         check_redflag = red.check_redflag(
-            redflag['created_by'], redflag['comment'])
+            logged_user['user_id'], comment)
         if check_redflag:
             return jsonify({"message": "Redflag record already exists"}), 400
-        red_flag = red.create_redflag(redflag)
+        red_flag = red.create_redflag(
+            logged_user['user_id'],
+            incident_type,
+            location,
+            status,
+            image,
+            comment)
         return make_response(jsonify({"status": 201, "data": [{"redflag_id": int(
             red_flag['redflag_id']), "message": "Created red-flag record"}]}), 201)
     except Exception:
