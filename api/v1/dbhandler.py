@@ -17,7 +17,7 @@ class Database:
             host = "localhost"
             port = "5432"
 
-        elif app_config['production']:
+        elif app_config['production'] == 'production':
             dbname = "da51826nqt75f"
             user = "bmwdqpkfurzqev"
             pwd = "b4ee0a501e7c5132bc0b157a36436af9696f2cb1e4470d53503c2aefd953ee8f"
