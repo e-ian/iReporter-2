@@ -74,6 +74,8 @@ resolved)
 |PATCH| "api/v1/redflags/<int:flagid>/comment" | Edits the comment of a redflag|
 |DELETE| "api/v1/redflags/<int:flagid>" | Delete a specific redflag record |
 
+* The above endpoints have the same functionality as interventions, you have to change the routes to "api/v1/interventions" and follow through like in the redflags
+
 # Running unittests.
 
 * Install pytest from terminal
@@ -92,7 +94,6 @@ resolved)
 
     ``` creating a redflag
     {
-    "created_by" : "emma", 
     "incident_type" : "redflag",
     "location" : "ntinda",
     "status" : "resolved",
