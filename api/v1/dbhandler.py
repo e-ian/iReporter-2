@@ -4,6 +4,7 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 
 
+
 class Database:
     """class to define databases for ireporter """
 
@@ -13,11 +14,12 @@ class Database:
             dbname = "testingdb"
         else:
             dbname = "ireporterdb"
+            
         self.conn = psycopg2.connect(
             dbname=dbname,
-            user="postgres",
-            host="localhost",
+            user="postgres",            
             password="alimanu",
+            host="localhost",
             port="5432")
         self.conn.autocommit = True
         self.cur = self.conn.cursor()
@@ -26,7 +28,7 @@ class Database:
         self.create_redflags_table()
         self.create_interventions_table()
 
-        print(dbname)
+        print("Connected to {}".format(dbname))
 
     def create_users_table(self):
         """ creates table for users in database """
