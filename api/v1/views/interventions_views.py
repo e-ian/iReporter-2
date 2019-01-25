@@ -43,8 +43,9 @@ def create_intervention(logged_user):
             logged_user['user_id'], comment)
         if check_intervention:
             return jsonify(
-                {"message": "Intervention record already exists"}), 400            
-        valid_intervention = incid.create_intervention(logged_user['user_id'], incident_type, location, status, image, comment)
+                {"message": "Intervention record already exists"}), 400
+        valid_intervention = incid.create_intervention(
+            logged_user['user_id'], incident_type, location, status, image, comment)
         return make_response(jsonify({"status": 201, "data": [{"intervention_id": int(
             valid_intervention['intervention_id']), "message": "Created intervention record"}]}), 201)
     except Exception:
@@ -60,6 +61,7 @@ def get_interventions(logged_user):
         return make_response(
             jsonify({'status': 200, 'interventions_list': all_interventions}), 200)
 
+
 @app.route('/api/v1/interventions/<int:intervention_id>', methods=['GET'])
 @secured
 def get_specific_intervention(logged_user, intervention_id):
@@ -69,7 +71,7 @@ def get_specific_intervention(logged_user, intervention_id):
         return make_response(
             jsonify({'status': 200, 'intervention': get_intervention}), 200)
     return make_response(
-            jsonify({'status': 404, 'message': 'Intervention record not found'}), 400)
+        jsonify({'status': 404, 'message': 'Intervention record not found'}), 400)
 
 
 @app.route(
