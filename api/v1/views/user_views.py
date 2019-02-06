@@ -18,31 +18,31 @@ def create_user():
 
     if not user.validate_email(email):
         return jsonify(
-            {'error': 'email should be in the form someone@example.com'}), 400
+            {'error': 'email should be in the form someone@example.com', 'status': 400}), 400
     if not user.valid_password(password):
         return jsonify(
             {'error': 'password should contain atleast 6 characters, some uppercase \
-            letters of the alphabet, numbers and cannot have empty spaces'}), 400
+            letters of the alphabet, numbers and cannot have empty spaces', 'status': 400}), 400
     if not user.valid_username(username):
         return jsonify(
             {'error': 'username field should have length of atleast 3 characters, \
-            should not have empty spaces, cannot be empty and should contain alphabets'}), 400
+            should not have empty spaces, cannot be empty and should contain alphabets', 'status': 400}), 400
     if not user.valid_firstname(firstname):
         return jsonify(
             {'error': 'firstname field should have length of atleast 3 characters, \
-            should not have empty spaces, cannot be empty and should contain alphabets'}), 400
+            should not have empty spaces, cannot be empty and should contain alphabets', 'status': 400}), 400
     if not user.valid_lastname(lastname):
         return jsonify(
             {'error': 'lastname field should have length of atleast 3 characters, \
-            should not have empty spaces, cannot be empty and should contain alphabets'}), 400
+            should not have empty spaces, cannot be empty and should contain alphabets', 'status': 400}), 400
     if not user.valid_role(role):
-        return jsonify({'error': 'role can be either admin or user only'}), 400
+        return jsonify({'error': 'role can be either admin or user only', 'status': 400}), 400
     check_user = user.check_username(username)
     if check_user:
-        return jsonify({'message': 'username already exist'}), 400
+        return jsonify({'message': 'username already exist', 'status': 400}), 400
     check_email = user.check_email(email)
     if check_email:
-        return jsonify({'message': 'email already exists'}), 400
+        return jsonify({'message': 'email already exists', 'status': 400}), 400
     signup_data = {
         "firstname": firstname,
         "lastname": lastname,
@@ -53,7 +53,7 @@ def create_user():
     }
     user.signup_user(signup_data)
     return make_response(
-        jsonify({"message": "User registered successfully"}), 201)
+        jsonify({"message": "User registered successfully", 'status': 201}), 201)
 
 
 @app.route('/api/v1/auth/admin', methods=['POST'])
@@ -116,7 +116,7 @@ def sigin_user():
     }
     login = user.login_user(login_data)
     if not login:
-        return jsonify({'message': 'username doesnot exist'})
+        return jsonify({'message': 'username doesnot exist', 'status': 400})
     pass_check = user.verify_password(
         login["password"], login_data["password"])
     if login and pass_check:
@@ -125,4 +125,4 @@ def sigin_user():
                         "access_token": access_token.decode('UTF-8')}), 200
     else:
         return make_response(
-            jsonify({"message": "username or password is wrong"}), 400)
+            jsonify({"message": "username or password is wrong", 'status': 400}), 400)
