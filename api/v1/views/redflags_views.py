@@ -52,7 +52,7 @@ def create_redflag(logged_user):
         if check_redflag:
             return jsonify({"message": "Redflag record already exists"}), 400
         red_flag = red.create_redflag(
-            logged_user['user_id'],
+            logged_user['username'],
             incident_type,
             location,
             status,
