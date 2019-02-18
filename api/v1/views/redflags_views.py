@@ -48,7 +48,7 @@ def create_redflag(logged_user):
             return make_response(jsonify(
                 {'status': 400, 'error': 'The image field cannot be empty'}), 400)
         check_redflag = red.check_redflag(
-            logged_user['user_id'], comment)
+            logged_user['username'], comment)
         if check_redflag:
             return jsonify({"message": "Redflag record already exists"}), 400
         red_flag = red.create_redflag(
@@ -68,11 +68,16 @@ def create_redflag(logged_user):
 @secured
 def get_redflags(logged_user):
     """ method implementing get all redflags endpoint """
-    all_redflags = red.get_redflags()
-    if all_redflags:
-        return make_response(
+    if logged_user['role'] == 'admin':
+        all_redflags = red.get_redflags()
+        if all_redflags:
+            return make_response(
             jsonify({'status': 200, 'redflag_list': all_redflags}))
-
+        return jsonify({'status': 200, 'message': 'No redflags to display'})
+    created_by = logged_user['username']
+    records = red.get_user_redflags(created_by)
+    if records:
+        return make_response(jsonify({'status': 200, 'redflag_list': records}))
 
 @app.route('/api/v1/redflags/<int:redflag_id>', methods=['GET'])
 @secured
