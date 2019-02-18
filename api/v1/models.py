@@ -54,6 +54,13 @@ class Redflags():
         dictcur.execute(query)
         return dictcur
 
+    def get_user_redflags(self, created_by):
+        """method to get the redflags of a single user"""
+        query = "SELECT * FROM redflags WHERE created_by ='{}'".format(created_by)
+        dictcur.execute(query)
+        records = dictcur.fetchall()
+        return records
+
     def check_redflag(self, created_by, comment):
         """ method to check if a redflag already exists """
         query = "SELECT DISTINCT redflag_id, created_by, comment FROM redflags WHERE created_by='{}' AND comment='{}';" \
@@ -108,6 +115,13 @@ class Interventions:
             .format(column=column, column_data=column_data, intervention_id=intervention_id)
         dictcur.execute(command)
         return dictcur
+
+    def get_user_interventions(self, created_by):
+        """method to get the redflags of a single user"""
+        command = "SELECT * FROM interventions WHERE created_by ='{}'".format(created_by)
+        dictcur.execute(command)
+        records = dictcur.fetchall()
+        return records
 
     def delete_intervention(self, intervention_id):
         """method to delete an intervention by intervention_id"""
