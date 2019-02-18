@@ -394,7 +394,7 @@ class TestUser(unittest.TestCase):
         return data
 
     def user_header(self):
-        return{'content_type': 'application/json', 'Authorization': self.login_user()['access_token']}
+        return{'content_type': 'application/json', 'Authorization': "Bearer " +self.login_user()['access_token']}
 
     def invalid_firstname(self, invalid_firstname):
         response = self.client.post(

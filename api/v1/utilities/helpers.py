@@ -64,10 +64,11 @@ def secured(f):
         access_token = None
         if 'Authorization' in request.headers:
             access_token = request.headers['Authorization']
+           
         if not access_token:
             return jsonify(
                 {'status': 401, 'error': 'Missing authorization token'}), 401
-
+        access_token = access_token.split(" ")[1]
         try:
             payload = jwt.decode(access_token, 'akokoro', algorithms=['HS256'])
             logged_user = user.check_username(payload['user'])

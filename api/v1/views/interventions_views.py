@@ -64,8 +64,10 @@ def get_interventions(logged_user):
         return jsonify({'status': 200, 'message': 'No interventions to display'})
     created_by = logged_user['username']
     records = incid.get_user_interventions(created_by)
+    print("tnhingss", records)
     if records:
         return make_response(jsonify({'status': 200, 'interventions_list': records}))
+    return make_response(jsonify({'status': 200, 'message': 'No interventions exist'}))
 
 
 @app.route('/api/v1/interventions/<int:intervention_id>', methods=['GET'])
