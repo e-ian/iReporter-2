@@ -12,20 +12,20 @@ class Database:
     def __init__(self):
         """ constructor method for connecting to the database """
         if os.getenv("Testingenv") == "EnvTests":
-            dbname = "testingdb"
-            user = "postgres"
-            pwd = "alimanu"
-            host = "localhost"
+            dbname = "testingdb",
+            user = "postgres",
+            pwd = "alimanu",
+            host = "localhost",
             port = "5432"
 
         elif app_config['production'] == 'production':
-            dbname = "da51826nqt75f"
-            user = "bmwdqpkfurzqev"
-            pwd = "b4ee0a501e7c5132bc0b157a36436af9696f2cb1e4470d53503c2aefd953ee8f"
-            host = "ec2-54-83-50-174.compute-1.amazonaws.com"
+            dbname = "da51826nqt75f",
+            user = "bmwdqpkfurzqev",
+            pwd = "b4ee0a501e7c5132bc0b157a36436af9696f2cb1e4470d53503c2aefd953ee8f",
+            host = "ec2-54-83-50-174.compute-1.amazonaws.com",
             port = "5432"
         elif app_config['development'] == 'development':
-            dbname = "ireporterdb"
+            dbname = "ireporterdb",
             user = "postgres",
             pwd = "alimanu",
             host = "localhost",
