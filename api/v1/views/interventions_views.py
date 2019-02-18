@@ -40,12 +40,12 @@ def create_intervention(logged_user):
             return make_response(jsonify(
                 {'status': 400, 'error': 'The image field cannot be empty'}), 400)
         check_intervention = incid.check_intervention(
-            logged_user['user_id'], comment)
+            logged_user['username'], comment)
         if check_intervention:
             return jsonify(
                 {"message": "Intervention record already exists"}), 400
         valid_intervention = incid.create_intervention(
-            logged_user['user_id'], incident_type, location, status, image, comment)
+            logged_user['username'], incident_type, location, status, image, comment)
         return make_response(jsonify({"status": 201, "data": [{"intervention_id": int(
             valid_intervention['intervention_id']), "message": "Created intervention record"}]}), 201)
     except Exception:
@@ -56,10 +56,16 @@ def create_intervention(logged_user):
 @secured
 def get_interventions(logged_user):
     """ method implementing get all redflags endpoint """
-    all_interventions = incid.get_interventions()
-    if all_interventions:
-        return make_response(
+    if logged_user['role'] == 'admin':        
+        all_interventions = incid.get_interventions()
+        if all_interventions:
+            return make_response(
             jsonify({'status': 200, 'interventions_list': all_interventions}), 200)
+        return jsonify({'status': 200, 'message': 'No interventions to display'})
+    created_by = logged_user['username']
+    records = incid.get_user_interventions(created_by)
+    if records:
+        return make_response(jsonify({'status': 200, 'interventions_list': records}))
 
 
 @app.route('/api/v1/interventions/<int:intervention_id>', methods=['GET'])
