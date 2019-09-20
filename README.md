@@ -106,7 +106,7 @@ resolved)
 
 # Deployment
 
-The app has been hosted on heroku and can be accessed using the following link ()
+The app has been hosted on heroku and can be accessed using the following link (https://eian-ireporter.herokuapp.com/)
 
 # Author:
 
